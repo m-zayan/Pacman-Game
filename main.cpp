@@ -4,7 +4,7 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(960, 980), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(960, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 
 	Player Pacman({ 100.0f,100.0f });
