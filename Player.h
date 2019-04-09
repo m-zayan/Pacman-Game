@@ -22,7 +22,7 @@ private:
 		downStanding,
 		rightStanding,
 		leftStanding,
-		Count             
+		Count
 	};
 public:
 	Player(const sf::Vector2f& position)
@@ -34,11 +34,11 @@ public:
 
 
 		sprite.setTextureRect({ 0,0,36,42 });
-		animations[int(AnimationIndex::rightDirection)] = Animation(36, 0, 36, 42,3,0.8f);
+		animations[int(AnimationIndex::rightDirection)] = Animation(36, 0, 36, 42, 3, 0.8f);
 		animations[int(AnimationIndex::leftDirection)] = Animation(36, 42, 36, 42, 3, 0.8f);
 		animations[int(AnimationIndex::upDirection)] = Animation(36, 84, 36, 42, 3, 0.8f);
 		animations[int(AnimationIndex::downDirection)] = Animation(36, 126, 36, 42, 3, 0.8f);
-		animations[int(AnimationIndex::rightStanding)] = Animation(36,0,36,42, 1, 10.8f);
+		animations[int(AnimationIndex::rightStanding)] = Animation(36, 0, 36, 42, 1, 10.8f);
 		animations[int(AnimationIndex::leftStanding)] = Animation(36, 42, 36, 42, 1, 10.8f);
 		animations[int(AnimationIndex::upStanding)] = Animation(36, 84, 36, 42, 1, 10.8f);
 		animations[int(AnimationIndex::downStanding)] = Animation(36, 126, 36, 42, 1, 10.8f);
@@ -51,7 +51,7 @@ public:
 	}
 	void SetDirection(const sf::Vector2f& dir)
 	{
-		
+
 		if (dir.x > 0.0f)
 		{
 			currentAnimation = AnimationIndex::rightDirection;
@@ -82,7 +82,7 @@ public:
 			{
 				currentAnimation = AnimationIndex::upStanding;
 			}
-			else if (velocity.y> 0.0f)
+			else if (velocity.y > 0.0f)
 			{
 				currentAnimation = AnimationIndex::downStanding;
 			}

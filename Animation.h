@@ -42,17 +42,17 @@ public:
 private:
 	void Advance()
 	{
-			if (++iFrame >= int(frames.size()))
-			{
-				iFrame = 0;
-			}
+		if (++iFrame >= int(frames.size()))
+		{
+			iFrame = 0;
+		}
 	}
 private:
-    float holdTime ;
+	float holdTime;
 	sf::Texture texture;
 	std::vector<sf::IntRect>frames;
 	int iFrame = 0;
-	float time=0.0f;
+	float time = 0.0f;
 
 };
 
