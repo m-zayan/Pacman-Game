@@ -4,7 +4,7 @@
 
 void StarMenu()
 {
-	sf::RenderWindow window(sf::VideoMode(1900, 960), "Start Menu");
+	sf::RenderWindow window(sf::VideoMode(1900, 960), "Pacman");
 	window.setPosition(sf::Vector2i(5, 10));
 
 	Menu main;
@@ -24,7 +24,8 @@ void StarMenu()
 
 		}
 	
-		main.Check_Button(window);
+		main.Play_Button(window);
+		main.HighScore_Button(window);
 		window.clear();
 		main.Draw(window);
 		window.display();

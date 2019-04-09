@@ -16,7 +16,7 @@ public:
 		holdTime(holdTime)
 	{
 		frames.reserve(nFrames);
-		texture.loadFromFile("Pacman.png");
+		texture.loadFromFile("Resources/Graphics/Pacman.png");
 		texture.setSmooth(true);
 		for (int i = 0; i < nFrames; i++)
 		{
