@@ -33,15 +33,15 @@ public:
 
 
 
-		sprite.setTextureRect({ 0,0,36,42 });
-		animations[int(AnimationIndex::rightDirection)] = Animation(36, 0, 36, 42, 3, 0.8f);
-		animations[int(AnimationIndex::leftDirection)] = Animation(36, 42, 36, 42, 3, 0.8f);
-		animations[int(AnimationIndex::upDirection)] = Animation(36, 84, 36, 42, 3, 0.8f);
-		animations[int(AnimationIndex::downDirection)] = Animation(36, 126, 36, 42, 3, 0.8f);
-		animations[int(AnimationIndex::rightStanding)] = Animation(36, 0, 36, 42, 1, 10.8f);
-		animations[int(AnimationIndex::leftStanding)] = Animation(36, 42, 36, 42, 1, 10.8f);
-		animations[int(AnimationIndex::upStanding)] = Animation(36, 84, 36, 42, 1, 10.8f);
-		animations[int(AnimationIndex::downStanding)] = Animation(36, 126, 36, 42, 1, 10.8f);
+		sprite.setTextureRect({ 0,0,30,30 });
+		animations[int(AnimationIndex::rightDirection)] = Animation(30, 0, 30, 30, 3, 0.4f);
+		animations[int(AnimationIndex::leftDirection)] = Animation(30, 30, 30, 30, 3, 0.4f);
+		animations[int(AnimationIndex::upDirection)] = Animation(30, 60, 30, 30, 3, 0.4f);
+		animations[int(AnimationIndex::downDirection)] = Animation(30, 90, 30, 30, 3, 0.4f);
+		animations[int(AnimationIndex::rightStanding)] = Animation(30, 0, 30, 30, 1, 10.8f);
+		animations[int(AnimationIndex::leftStanding)] = Animation(30, 30, 30, 30, 1, 10.8f);
+		animations[int(AnimationIndex::upStanding)] = Animation(30, 60, 30, 30, 1, 10.8f);
+		animations[int(AnimationIndex::downStanding)] = Animation(30, 90, 30, 30, 1, 10.8f);
 	}
 	void Draw(sf::RenderTarget& rt) const
 	{
