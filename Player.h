@@ -2,8 +2,7 @@
 #include<SFML/Graphics.hpp>
 #include"Player.h"
 #include "Animation.h"
-
-
+#include<iostream>
 #ifndef Player_H
 
 #define Player_H
@@ -11,6 +10,16 @@
 
 class Player
 {
+public:
+	Player() = default;
+	enum MOVE { UP, DOWN, LEFT, RIGHT }; //enums instead of remember numbers
+	bool move[4] = { false,false, false, false }; //deciding if You move up/down/left/right
+
+	bool walking=false;
+	float nextspot; //the next tilespot of the map
+	float x = 30;
+	float y = 30;
+	float movespeed=5;
 private:
 	enum class AnimationIndex
 	{
@@ -89,12 +98,111 @@ public:
 		}
 		velocity = dir * speed;
 	}
+
+	void keymove(int key)
+	{
+		if (key==1)  //Up =1 , DOWN =2 ,Left=3 ,Right=4.
+		{
+			if (walking == false)
+			{
+
+				nextspot = y - 30;
+
+				move[UP] = true;
+				walking = true;
+
+			}
+		}
+
+		if (key==2)
+		{
+			if (walking == false)
+			{
+				nextspot = y + 30;
+				move[DOWN] = true;
+				walking = true;
+			}
+		}
+
+		if (key ==3)
+		{
+			if (walking == false)
+			{
+				nextspot = x - 30;
+				move[LEFT] = true;
+				walking = true;
+			}
+		}
+
+		if (key ==4)
+		{
+			if (walking == false)
+			{
+				nextspot = x + 30;
+				move[RIGHT] = true;
+				walking = true;
+			}
+
+		}
+	}
+	void moving()
+	{
+		if (walking == true)
+		{
+			if (move[UP] == true)
+			{
+				y -= movespeed;
+
+				/* i do <= and not just == because maybe movespeed has a
+				decimalpoint and then it wont become the same number as nextspot*/
+				if (y <= nextspot)
+				{
+					y = nextspot;
+					walking = false;
+					move[UP] = false;
+				}
+			}
+
+			if (move[DOWN] == true)
+			{
+				y += movespeed;
+				if (y >= nextspot)
+				{
+					y = nextspot;
+					walking = false;
+					move[DOWN] = false;
+				}
+			}
+			if (move[LEFT] == true)
+			{
+				x -= movespeed;
+				if (x <= nextspot)
+				{
+					x = nextspot;
+					walking = false;
+					move[LEFT] = false;
+				}
+			}
+			if (move[RIGHT] == true)
+			{
+				x += movespeed;
+				if (x >= nextspot)
+				{
+					x = nextspot;
+					walking = false;
+					move[RIGHT] = false;
+				}
+			}
+		}
+	}
 	void Update(float deltaTime)
 	{
-		position += velocity * deltaTime;
+		//position += velocity * deltaTime;
 		animations[int(currentAnimation)].Update(deltaTime);
 		animations[int(currentAnimation)].ApplyToSprite(sprite);
-		sprite.setPosition(position);
+		moving();
+		sprite.setPosition(x,y);
+		//std::cout << "position X :" << x/30 << " " << "Position Y :" << y/30 <<std:: endl;
 	}
 
 private:
