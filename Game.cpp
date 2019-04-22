@@ -8,13 +8,17 @@ void Game()
 {
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
+	
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
-	Player Pacman({ 405.0f,720.0f });
+	Player Pacman({ 390.0f,690.0f });
 	Map map;
+	map.Actor.setRadius(15);
+	//map.Actor.setFillColor(sf::Color::Blue);
 	map.Setup();
     map.Read_Map();
 	map.Wall();	
+
 	while (window.isOpen())
 	{
 		
@@ -28,7 +32,7 @@ void Game()
 		}
 		int col = Pacman.x / 30;  //x
 		int row = Pacman.y / 30; //y
-
+		//std::cout << DotX << " " << DotY <<" "<<col<<" "<<row<< std::endl;
 		//handel input;
 		sf::Vector2f direction = { 0.0f,0.0f };
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && map.wall[row - 1][col] != 1)
@@ -56,12 +60,13 @@ void Game()
 
 		//update model
 		
-		Pacman.Update(1.0f / 60.0f);
-
+		Pacman.Update(1.0f / 30.0f);
+		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
+		
 		window.clear();
 		map.Draw(window);
 		Pacman.Draw(window);
-
+       // window.draw(map.Actor);
 		window.display();
 
 	}
