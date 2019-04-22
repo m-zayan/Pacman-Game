@@ -3,7 +3,7 @@
 #include"Player.h"
 #include"Map.h"
 sf::Event event;
-
+int key = 0;
 void Game()
 {
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
@@ -35,26 +35,46 @@ void Game()
 		//std::cout << DotX << " " << DotY <<" "<<col<<" "<<row<< std::endl;
 		//handel input;
 		sf::Vector2f direction = { 0.0f,0.0f };
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && map.wall[row - 1][col] != 1)
+		if (event.key.code==sf::Keyboard::Up && map.wall[row - 1][col] != 1)
 		{
 
 			direction.y -= 1.0f;
 			Pacman.keymove(1);
+			key = 1;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && map.wall[row+1][col] != 1)
+		else if (event.key.code == sf::Keyboard::Down && map.wall[row+1][col] != 1)
 		{
 			direction.y += 1.0f;
 			Pacman.keymove(2);
+			key = 2;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && map.wall[row][col + 1] != 1)
+		else if (event.key.code == sf::Keyboard::Right && map.wall[row][col + 1] != 1)
 		{
 			direction.x += 1.0f;
 			Pacman.keymove(4);
+			key = 4;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && map.wall[row][col-1]!=1)
+		else if (event.key.code == sf::Keyboard::Left && map.wall[row][col-1]!=1)
 		{
 			direction.x -= 1.0f;
 			Pacman.keymove(3);
+			key = 3;
+		}
+		else if(key == 1 && map.wall[row - 1][col] != 1)
+		{
+			Pacman.keymove(key);
+		}
+		else if (key == 2 && map.wall[row +1][col] != 1)
+		{
+			Pacman.keymove(key);
+		}
+		else if (key == 3 && map.wall[row][col-1] != 1)
+		{
+			Pacman.keymove(key);
+		}
+		else if (key == 4 && map.wall[row][col + 1] != 1)
+		{
+			Pacman.keymove(key);
 		}
 		Pacman.SetDirection(direction);
 
