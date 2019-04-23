@@ -1,5 +1,6 @@
 #pragma once
 #include<SFML/Graphics.hpp>
+#include<sstream>
 #include<fstream>
 #include<vector>
 #ifndef  HighScore_H
@@ -9,7 +10,26 @@
 class Score
 {
 public:
+	sf::Text text;
+	std::ostringstream Sscore;
+	int score = 0;
+	Score()
+	{
+		font.loadFromFile("Resources/Font/Number.ttf");
+		Sscore << "Score : " << score;
+		text.setFont(font);
+		text.setFillColor(sf::Color::Red);
+		text.setStyle(sf::Text::Bold);
+		text.setCharacterSize(30);
+		text.setPosition(600, 930);
+		text.setString(Sscore.str());
+	}
+	void Display_Score(sf::RenderWindow& window)
+	{
 
+	//	text.setString(Sscore.str());
+		window.draw(text);
+	}
 	void Read()
 	{
 		readFile.open("Resources/HighScore/HighScore.txt");
@@ -35,6 +55,7 @@ public:
 private:
 	std::ifstream readFile;
 	std::vector<int>newS;
+	sf::Font font;
 	int toVector;
 };
 

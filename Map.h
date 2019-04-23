@@ -1,6 +1,7 @@
 #pragma once
 #include<SFML/Graphics.hpp>
 #include"Player.h"
+#include"HighScore.h"
 #include<fstream>
 #include<string>
 #ifndef Map_H
@@ -61,7 +62,7 @@ public:
 		}
 	}
 
-	void Draw(sf::RenderWindow& window)
+	void Draw(sf::RenderWindow& window,Score& Sscore)
 	{
 		window.draw(sprite);
 		for (int row = 0; row < 31; row++)
@@ -78,10 +79,19 @@ public:
 				{
 					PacDots.setPosition((col * 30.0f) + 15, (row * 30.0f) + 15);
 					
-					if (Actor.getGlobalBounds().intersects(PacDots.getGlobalBounds()))
-						not_eaten_dots[row][col] = false;
-					if(not_eaten_dots[row][col]==true)
-					     window.draw(PacDots);
+
+					if (not_eaten_dots[row][col] == true)
+					{
+						window.draw(PacDots);
+						if (Actor.getGlobalBounds().intersects(PacDots.getGlobalBounds()))
+						{
+							not_eaten_dots[row][col] = false;
+								Sscore.score += 20;
+                               Sscore.Sscore.str("");
+	                      Sscore.Sscore << "Score : " << Sscore.score;
+	                      Sscore.text.setString(Sscore.Sscore.str());
+						}
+					}
 				}
 				else if (map[row][col] == 'D') //Super dots.
 				{
@@ -103,7 +113,6 @@ private:
 	std::ofstream oFile;
 	char map[31][28];
 	Player Pacman;
-
 
 };
 

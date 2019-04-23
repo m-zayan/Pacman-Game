@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include"Animation.h"
+#include"HighScore.h"
 #include"Player.h"
 #include"Map.h"
 sf::Event event;
@@ -8,7 +9,7 @@ void Game()
 {
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
-	
+	Score Sscore;
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
 	Player Pacman({ 390.0f,690.0f });
@@ -32,7 +33,9 @@ void Game()
 		}
 		int col = Pacman.x / 30;  //x
 		int row = Pacman.y / 30; //y
-		//std::cout << DotX << " " << DotY <<" "<<col<<" "<<row<< std::endl;
+
+		
+	//	std::cout << DotX << " " << DotY <<" "<<col<<" "<<row<< std::endl;
 		//handel input;
 		sf::Vector2f direction = { 0.0f,0.0f };
 		if (event.key.code==sf::Keyboard::Up && map.wall[row - 1][col] != 1)
@@ -62,18 +65,22 @@ void Game()
 		}
 		else if(key == 1 && map.wall[row - 1][col] != 1)
 		{
+			direction.y -= 1.0f;
 			Pacman.keymove(key);
 		}
 		else if (key == 2 && map.wall[row +1][col] != 1)
 		{
+			direction.y += 1.0f;
 			Pacman.keymove(key);
 		}
 		else if (key == 3 && map.wall[row][col-1] != 1)
 		{
+			direction.x -= 1.0f;
 			Pacman.keymove(key);
 		}
 		else if (key == 4 && map.wall[row][col + 1] != 1)
 		{
+			direction.x += 1.0f;
 			Pacman.keymove(key);
 		}
 		Pacman.SetDirection(direction);
@@ -84,8 +91,9 @@ void Game()
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
 		
 		window.clear();
-		map.Draw(window);
+		map.Draw(window,Sscore);
 		Pacman.Draw(window);
+		Sscore.Display_Score(window);
        // window.draw(map.Actor);
 		window.display();
 
