@@ -14,11 +14,10 @@ public:
 	Player() = default;
 	enum MOVE { UP, DOWN, LEFT, RIGHT }; //enums instead of remember numbers
 	bool move[4] = { false,false, false, false }; //deciding if You move up/down/left/right
-
 	bool walking=false;
 	float nextspot; //the next tilespot of the map
-	float x = 30;
-	float y = 30;
+	float x = 390;
+	float y = 690;
 	float movespeed=5;
 private:
 	enum class AnimationIndex
@@ -43,14 +42,14 @@ public:
 
 
 		sprite.setTextureRect({ 0,0,30,30 });
-		animations[int(AnimationIndex::rightDirection)] = Animation(30, 0, 30, 30, 3, 0.4f);
-		animations[int(AnimationIndex::leftDirection)] = Animation(30, 30, 30, 30, 3, 0.4f);
-		animations[int(AnimationIndex::upDirection)] = Animation(30, 60, 30, 30, 3, 0.4f);
-		animations[int(AnimationIndex::downDirection)] = Animation(30, 90, 30, 30, 3, 0.4f);
-		animations[int(AnimationIndex::rightStanding)] = Animation(30, 0, 30, 30, 1, 10.8f);
-		animations[int(AnimationIndex::leftStanding)] = Animation(30, 30, 30, 30, 1, 10.8f);
-		animations[int(AnimationIndex::upStanding)] = Animation(30, 60, 30, 30, 1, 10.8f);
-		animations[int(AnimationIndex::downStanding)] = Animation(30, 90, 30, 30, 1, 10.8f);
+		animations[int(AnimationIndex::rightDirection)] = Animation(30, 0, 30, 30, 3, 0.4f,pac);
+		animations[int(AnimationIndex::leftDirection)] = Animation(30, 30, 30, 30, 3, 0.4f,pac);
+		animations[int(AnimationIndex::upDirection)] = Animation(30, 60, 30, 30, 3, 0.4f,pac);
+		animations[int(AnimationIndex::downDirection)] = Animation(30, 90, 30, 30, 3, 0.4f,pac);
+		animations[int(AnimationIndex::rightStanding)] = Animation(30, 0, 30, 30, 1, 10.8f,pac);
+		animations[int(AnimationIndex::leftStanding)] = Animation(30, 30, 30, 30, 1, 10.8f,pac);
+		animations[int(AnimationIndex::upStanding)] = Animation(30, 60, 30, 30, 1, 10.8f,pac);
+		animations[int(AnimationIndex::downStanding)] = Animation(30, 90, 30, 30, 1, 10.8f,pac);
 	}
 	void Draw(sf::RenderTarget& rt) const
 	{
@@ -210,6 +209,7 @@ private:
 	sf::Vector2f position;
 	sf::Vector2f velocity = { 0.0f,0.0f };
 	sf::Sprite sprite;
+	std::string pac = "Resources/Graphics/Pacman.png";
 	Animation animations[int(AnimationIndex::Count)];
 	AnimationIndex currentAnimation = AnimationIndex::rightStanding;
 

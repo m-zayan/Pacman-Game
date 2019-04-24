@@ -86,7 +86,7 @@ public:
 						if (Actor.getGlobalBounds().intersects(PacDots.getGlobalBounds()))
 						{
 							not_eaten_dots[row][col] = false;
-								Sscore.score += 20;
+								Sscore.score += 10;
                                Sscore.Sscore.str("");
 	                      Sscore.Sscore << "Score : " << Sscore.score;
 	                      Sscore.text.setString(Sscore.Sscore.str());

@@ -3,6 +3,10 @@
 #include"HighScore.h"
 #include"Player.h"
 #include"Map.h"
+#include"Blinky.h" //Red  Ghost
+#include"Pinky.h"  //Pink Ghost
+#include"Inky.h"   //Blue Ghost
+#include"Clyde.h" //Orange Ghost
 sf::Event event;
 int key = 0;
 void Game()
@@ -10,6 +14,10 @@ void Game()
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 	Score Sscore;
+	Blinky blinky({ 405.0f,330.0f });
+	Pinky pinky({ 375.0f,420.0f });
+	Inky inky({ 405.0f,420.0f });
+	Clyde clyde({ 435.0f,420 });
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
 	Player Pacman({ 390.0f,690.0f });
@@ -88,11 +96,19 @@ void Game()
 		//update model
 		
 		Pacman.Update(1.0f / 30.0f);
+		blinky.Update(1.0f / 30.0f);  //Update red Animtion
+		pinky.Update(1.0f / 30.0f);   //Update pink Animtion
+		inky.Update(1.0f / 30.0f);   //Update Blue Animtion
+		clyde.Update(1.0f / 30.0f);  //Update orange Animtion
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
 		
 		window.clear();
 		map.Draw(window,Sscore);
 		Pacman.Draw(window);
+		blinky.Draw(window);  //Draw red
+		pinky.Draw(window);   //Draw pink
+		inky.Draw(window);    //Draw Blue
+		clyde.Draw(window);   // Draw orange
 		Sscore.Display_Score(window);
        // window.draw(map.Actor);
 		window.display();
