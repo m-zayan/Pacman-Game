@@ -6,14 +6,7 @@ void HighScore()
 {
 	sf::RenderWindow window(sf::VideoMode(960, 960), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
-	sf::Font font; //must be in class
-	font.loadFromFile("Resources/Font/high.ttf");
-	sf::Text high;
-	high.setFillColor(sf::Color::Yellow);
-	high.setPosition(120, 20);
-	high.setString("High Scores");
-	high.setCharacterSize(120);
-	high.setFont(font);
+	HighS SHigh;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -25,7 +18,7 @@ void HighScore()
 				window.close();
 		}
 		window.clear();
-		window.draw(high);
+		SHigh.Draw(window);
 		window.display();
 	
 	

@@ -11,9 +11,8 @@
 class Blinky
 {
 public:
+	Blinky() = default;
 	sf::Sprite s_Blinky;
-	enum Dir{UP,DOWN,LEFT,RIGHT};
-	bool able[4] = { false,false, false, false };
 	enum class AnimationIndex
 	{
 		downStanding,
@@ -45,28 +44,7 @@ public:
 
 		animations[int(currentAnimation)].Update(deltaTime);
 		animations[int(currentAnimation)].ApplyToSprite(s_Blinky);
-		int row = (s_Blinky.getPosition().y + 43) / 32;
-		int col = (s_Blinky.getPosition().x + 43) / 32;
-		if (map.wall[row][col + 1]!=1 && able[LEFT]==false)
-		{
-			able[RIGHT] = true;
-			currentAnimation = AnimationIndex::rightDirection;
-			s_Blinky.move(2, 0);
-        }
-		else if(map.wall[row][col + 1] == 1)
-		{
-			able[RIGHT] = false;
-		}
-		if (map.wall[row][col - 1] != 1 && able[RIGHT]==false)
-		{
-			able[LEFT] = true;
-			currentAnimation = AnimationIndex::leftDirection;
-			s_Blinky.move(-2, 0);
-		}
-		else if(map.wall[row][col - 1] == 1)
-		{
-			able[LEFT] = false;
-		}
+		
 
 	}
 private:

@@ -57,6 +57,35 @@ private:
 	int toVector;
 };
 
+class HighS
+{
+public:
+	HighS()
+	{
+		
+		font.loadFromFile("Resources/Font/high.ttf");
+		high.setFillColor(sf::Color::Yellow);
+		high.setPosition(120, 20);
+		high.setString("High Scores");
+		high.setCharacterSize(120);
+		high.setFont(font);
+		texture.loadFromFile("Resources/Graphics/HighB.jpg");
+		sprite.setTexture(texture);
+		sprite.setScale(3.2f, 5.7f);
+	}
+	void Draw(sf::RenderWindow& window)
+	{
+		window.draw(sprite);
+		window.draw(high);
+		
+	}
+private:
+	sf::Font font; 
+	sf::Text high;
+	sf::Texture texture;
+	sf::Sprite sprite;
+};
+
 void HighScore();
 
 

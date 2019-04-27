@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include<Windows.h>
+#include"F_Path.h"
 #include"Animation.h"
 #include"HighScore.h"
 #include"Player.h"
@@ -8,6 +9,7 @@
 #include"Pinky.h"  //Pink Ghost
 #include"Inky.h"   //Blue Ghost
 #include"Clyde.h" //Orange Ghost
+#include"F_Path.h"
 sf::Event event;
 int key = 0;
 void Game()
@@ -22,12 +24,12 @@ void Game()
 	Clyde clyde({ 435.0f,420 });
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
-	Player Pacman({ 390.0f,690.0f });
+	Player Pacman({ 390.0f,690.0f }),Pac;
 	Map map;
 	map.Actor.setRadius(15);
 	//map.Actor.setFillColor(sf::Color::Blue);
-
-
+	
+	FindPath(Pac, blinky);
 	while (window.isOpen())
 	{
 		
