@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include<Windows.h>
 #include"Animation.h"
 #include"HighScore.h"
 #include"Player.h"
@@ -11,6 +12,7 @@ sf::Event event;
 int key = 0;
 void Game()
 {
+	bool gamePause =true;
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 	Score Sscore;
@@ -24,9 +26,7 @@ void Game()
 	Map map;
 	map.Actor.setRadius(15);
 	//map.Actor.setFillColor(sf::Color::Blue);
-	map.Setup();
-    map.Read_Map();
-	map.Wall();	
+
 
 	while (window.isOpen())
 	{
@@ -43,7 +43,7 @@ void Game()
 		int row = Pacman.y / 30; //y
 
 		
-	//	std::cout << DotX << " " << DotY <<" "<<col<<" "<<row<< std::endl;
+		//std::cout<<col<<" "<<row<< std::endl;
 		//handel input;
 		sf::Vector2f direction = { 0.0f,0.0f };
 		if (event.key.code==sf::Keyboard::Up && map.wall[row - 1][col] != 1)
@@ -110,6 +110,22 @@ void Game()
 		inky.Draw(window);    //Draw Blue
 		clyde.Draw(window);   // Draw orange
 		Sscore.Display_Score(window);
+		if (Sscore.score >= 2400)
+		{
+			if (map.win(Sscore) == true)
+			{
+				break;
+			}
+		}
+		if (map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds())) //life
+		{
+			window.draw(map.Actor);
+			window.display();
+			Sleep(800);
+			Pacman.x= 390.0f;
+			Pacman.y= 690.0f;
+		}
+
        // window.draw(map.Actor);
 		window.display();
 

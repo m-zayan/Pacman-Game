@@ -152,8 +152,7 @@ public:
 			{
 				y -= movespeed;
 
-				/* i do <= and not just == because maybe movespeed has a
-				decimalpoint and then it wont become the same number as nextspot*/
+
 				if (y <= nextspot)
 				{
 					y = nextspot;

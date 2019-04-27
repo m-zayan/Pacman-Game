@@ -26,8 +26,6 @@ public:
 	}
 	void Display_Score(sf::RenderWindow& window)
 	{
-
-	//	text.setString(Sscore.str());
 		window.draw(text);
 	}
 	void Read()

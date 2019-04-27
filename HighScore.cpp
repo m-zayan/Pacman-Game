@@ -1,6 +1,6 @@
 #include<SFML/Graphics.hpp>
 #include "HighScore.h"
-
+#include"Animation.h"
 
 void HighScore()
 {
@@ -9,8 +9,8 @@ void HighScore()
 	sf::Font font; //must be in class
 	font.loadFromFile("Resources/Font/high.ttf");
 	sf::Text high;
-	high.setFillColor(sf::Color(255,140,0));
-	high.setPosition(320, 20);
+	high.setFillColor(sf::Color::Yellow);
+	high.setPosition(120, 20);
 	high.setString("High Scores");
 	high.setCharacterSize(120);
 	high.setFont(font);

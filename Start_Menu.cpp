@@ -6,7 +6,8 @@ void StarMenu()
 {
 	sf::RenderWindow window(sf::VideoMode(1900, 960), "Pacman");
 	window.setPosition(sf::Vector2i(5, 10));
-
+	window.setKeyRepeatEnabled(false);
+	window.setVerticalSyncEnabled(true);
 	Menu main;
 
 	main.set_Button(window);

@@ -16,7 +16,7 @@ public:
 	bool wall[31][28] = {};
 	bool not_eaten_dots[31][28] = {};
 
-	void Setup()
+	Map()
 	{
 		texture.loadFromFile("Resources/Map/Map.png");
 		sprite.setTexture(texture);
@@ -29,9 +29,6 @@ public:
 		PacDots.setRadius(3.75f);
 		PacDots.setOrigin(3.75, 3.75f);
 
-	}
-	void Read_Map()
-	{
 		iFile.open("Resources/Map/Map.txt");
 		for (int row = 0; row < 31; row++)
 		{
@@ -42,9 +39,7 @@ public:
 		}
 
 		iFile.close();
-	}
-	void Wall()  // Map Booleans
-	{
+
 		for (int row = 0; row < 31; row++)
 		{
 			for (int col = 0; col < 28; col++)
@@ -61,7 +56,6 @@ public:
 			}
 		}
 	}
-
 	void Draw(sf::RenderWindow& window,Score& Sscore)
 	{
 		window.draw(sprite);
@@ -102,7 +96,31 @@ public:
 			}
 		}
 	}
+	bool win(Score& Sscore)
+	{
+		int win = 1;
 
+			for (int row = 0; row < 31; row++)
+			{
+				for (int col = 0; col < 28; col++)
+				{
+					if (not_eaten_dots[row][col] == true)
+					{
+						win = 0;
+					}
+				}
+			}	
+	    if (win == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+
+	}
 private:
 	//sf::RectangleShape tiles;
 	sf::Texture texture;

@@ -16,37 +16,38 @@ public:
 	void Background()
 	{
 
-		background.loadFromFile("Resources/Graphics/wallpaper.jpg");
+		background.loadFromFile("Resources/Graphics/Pacman Menu.jpg");
 		sprit.setTexture(background);
-		sprit.setScale(1.2f, 1.2f);
+		//sprit.setScale(1.2f, 1.2f);
+		//sprit.setPosition(384, 0);
 		background.setSmooth(true);
 	}
 	void set_Button(sf::RenderWindow& window)
 	{
 		font.loadFromFile("Resources/Font/Button_Font.ttf");
 		play.setFillColor(sf::Color::White);
-		play.setPosition(370, 250);
+		play.setPosition(450, 650);
 		play.setString("Play");
 		play.setCharacterSize(120);
 		play.setFont(font);
 		////////////////////////////////////////////// Play Button//////////////////////////////////////                             
 		highscore.setFillColor(sf::Color::White);
-		highscore.setPosition(370, 350);
-		highscore.setString("High Scores");
+		highscore.setPosition(450, 750);
+		highscore.setString("Leaderboard");
 		highscore.setCharacterSize(120);
 		highscore.setFont(font);
 		/////////////////////////////////////////////High Score Button///////////////////////////////////
-		store.setFillColor(sf::Color::White);
-		store.setPosition(370, 450);
-		store.setString("Store");
-		store.setCharacterSize(120);
-		store.setFont(font);
+		//store.setFillColor(sf::Color::White);
+		//store.setPosition(370, 450);
+		//store.setString("Store");
+		//store.setCharacterSize(120);
+		//store.setFont(font);
 		///////////////////////////////////////////Store Button///////////////////////////////////////////
 	}
 	void Play_Button(sf::RenderWindow& window)
 	{
 		mouse_pos = sf::Mouse::getPosition(window);
-		if (mouse_pos.x >= 370 && mouse_pos.x <= 850 && mouse_pos.y >= 250 && mouse_pos.y <= 370)
+		if (mouse_pos.x >= 450 && mouse_pos.x <= 930 && mouse_pos.y >= 650 && mouse_pos.y <= 770)
 		{ 
 			
 			play.setFillColor(sf::Color::Red);
@@ -69,7 +70,7 @@ public:
 	void HighScore_Button(sf::RenderWindow& window)
 	{
 		mouse_pos = sf::Mouse::getPosition(window);
-		if (mouse_pos.x >= 370 && mouse_pos.x <= 850 && mouse_pos.y >= 350 && mouse_pos.y <= 470)
+		if (mouse_pos.x >= 450 && mouse_pos.x <= 1770 && mouse_pos.y >= 750 && mouse_pos.y <= 870)
 		{
 			highscore.setFillColor(sf::Color::Red);
 		
@@ -94,13 +95,13 @@ public:
 		window.draw(sprit);
 		window.draw(play);
 		window.draw(highscore);
-		window.draw(store);
+	//	window.draw(store);
 	}
 private:
 	sf::Font font;
 	sf::Text play;
 	sf::Text highscore;
-	sf::Text store;
+	//sf::Text store;
 	sf::Texture background;
 	sf::Sprite sprit;
 	sf::Mouse mouse;
