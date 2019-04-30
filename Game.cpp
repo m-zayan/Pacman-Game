@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include<Windows.h>
-#include"F_Path.h"
 #include"Animation.h"
 #include"HighScore.h"
 #include"Player.h"
@@ -9,12 +8,11 @@
 #include"Pinky.h"  //Pink Ghost
 #include"Inky.h"   //Blue Ghost
 #include"Clyde.h" //Orange Ghost
-#include"F_Path.h"
 sf::Event event;
 int key = 0;
 void Game()
 {
-	bool gamePause =true;
+	bool gamePause = true;
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 	Score Sscore;
@@ -24,15 +22,18 @@ void Game()
 	Clyde clyde({ 435.0f,420 });
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
-	Player Pacman({ 390.0f,690.0f }),Pac;
+	Player Pacman({ 390.0f,690.0f });
 	Map map;
 	map.Actor.setRadius(15);
 	//map.Actor.setFillColor(sf::Color::Blue);
-	
-	FindPath(Pac, blinky);
+	//int col2 = (blinky.s_Blinky.getPosition().x +15)/ 30;  //x
+	//int row2 = (blinky.s_Blinky.getPosition().y) / 30; //y
+	//std::cout<<col2<<" "<<row2<< std::endl;
+
+
 	while (window.isOpen())
 	{
-		
+
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
@@ -41,21 +42,22 @@ void Game()
 				window.close();
 
 		}
-		int col = Pacman.x / 30;  //x
-		int row = Pacman.y / 30; //y
+		int col = (int)Pacman.x / 30;  //x
+		int row = (int)Pacman.y / 30; //y
 
-		
+
+
 		//std::cout<<col<<" "<<row<< std::endl;
 		//handel input;
 		sf::Vector2f direction = { 0.0f,0.0f };
-		if (event.key.code==sf::Keyboard::Up && map.wall[row - 1][col] != 1)
+		if (event.key.code == sf::Keyboard::Up && map.wall[row - 1][col] != 1)
 		{
 
 			direction.y -= 1.0f;
 			Pacman.keymove(1);
 			key = 1;
 		}
-		else if (event.key.code == sf::Keyboard::Down && map.wall[row+1][col] != 1)
+		else if (event.key.code == sf::Keyboard::Down && map.wall[row + 1][col] != 1)
 		{
 			direction.y += 1.0f;
 			Pacman.keymove(2);
@@ -67,23 +69,23 @@ void Game()
 			Pacman.keymove(4);
 			key = 4;
 		}
-		else if (event.key.code == sf::Keyboard::Left && map.wall[row][col-1]!=1)
+		else if (event.key.code == sf::Keyboard::Left && map.wall[row][col - 1] != 1)
 		{
 			direction.x -= 1.0f;
 			Pacman.keymove(3);
 			key = 3;
 		}
-		else if(key == 1 && map.wall[row - 1][col] != 1)
+		else if (key == 1 && map.wall[row - 1][col] != 1)
 		{
 			direction.y -= 1.0f;
 			Pacman.keymove(key);
 		}
-		else if (key == 2 && map.wall[row +1][col] != 1)
+		else if (key == 2 && map.wall[row + 1][col] != 1)
 		{
 			direction.y += 1.0f;
 			Pacman.keymove(key);
 		}
-		else if (key == 3 && map.wall[row][col-1] != 1)
+		else if (key == 3 && map.wall[row][col - 1] != 1)
 		{
 			direction.x -= 1.0f;
 			Pacman.keymove(key);
@@ -95,17 +97,42 @@ void Game()
 		}
 		Pacman.SetDirection(direction);
 
-		//update model
 		
+/*
+			sf::Vector2f dir = {};
+
+				dir.x = float(ghostMover.first[19].second - ghostMover.first[18].second);
+				dir.y = float(ghostMover.first[18].first - ghostMover.first[19].first);
+				std::cout << "x : " << dir.x << " " << "y : " << dir.y << std::endl;
+				if (dir.y == -1 && map.wall[Grow - 1][Gcol] != 1)
+				{
+					blinky.GhostDir(dir);
+				}
+				else if (dir.y == 1 && map.wall[Grow + 1][Gcol] != 1)
+				{
+					blinky.GhostDir(dir);
+				}
+				else if (dir.x == -1 && map.wall[Grow][Gcol - 1] != 1)
+				{
+					blinky.GhostDir(dir);
+				}
+				else if (dir.x == 1 && map.wall[Grow][Gcol + 1] != 1)
+				{
+					blinky.GhostDir(dir);
+				}*/
+
+			
+		//update model
+
 		Pacman.Update(1.0f / 30.0f);
 		blinky.Update(1.0f / 30.0f);  //Update red Animtion
 		pinky.Update(1.0f / 30.0f);   //Update pink Animtion
 		inky.Update(1.0f / 30.0f);   //Update Blue Animtion
 		clyde.Update(1.0f / 30.0f);  //Update orange Animtion
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
-		
+
 		window.clear();
-		map.Draw(window,Sscore);
+		map.Draw(window, Sscore);
 		Pacman.Draw(window);
 		blinky.Draw(window);  //Draw red
 		pinky.Draw(window);   //Draw pink
@@ -124,15 +151,15 @@ void Game()
 			window.draw(map.Actor);
 			window.display();
 			Sleep(800);
-			Pacman.x= 390.0f;
-			Pacman.y= 690.0f;
+			Pacman.x = 390.0f;
+			Pacman.y = 690.0f;
 		}
 
-       // window.draw(map.Actor);
+		// window.draw(map.Actor);
 		window.display();
 
 	}
 
 
-	
+
 }
