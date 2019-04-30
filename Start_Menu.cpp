@@ -4,8 +4,8 @@
 
 void StarMenu()
 {
-	sf::RenderWindow window(sf::VideoMode(1900, 960), "Pacman");
-	window.setPosition(sf::Vector2i(5, 10));
+	sf::RenderWindow window(sf::VideoMode(840, 960), "Pacman");
+	window.setPosition(sf::Vector2i(480, 0));
 	window.setKeyRepeatEnabled(false);
 	window.setVerticalSyncEnabled(true);
 	Menu main;

@@ -16,25 +16,26 @@ public:
 	void Background()
 	{
 
-		background.loadFromFile("Resources/Graphics/Pacman Menu.jpg");
+		background.loadFromFile("Resources/Graphics/Pacman Menu.png");
+		background.setSmooth(true);
 		sprit.setTexture(background);
 		//sprit.setScale(1.2f, 1.2f);
-		//sprit.setPosition(384, 0);
-		background.setSmooth(true);
+		sprit.setPosition(-220, 0);
+		
 	}
 	void set_Button(sf::RenderWindow& window)
 	{
 		font.loadFromFile("Resources/Font/Button_Font.ttf");
 		play.setFillColor(sf::Color::White);
-		play.setPosition(450, 650);
+		play.setPosition(320,480);
 		play.setString("Play");
-		play.setCharacterSize(120);
+		play.setCharacterSize(60);
 		play.setFont(font);
 		////////////////////////////////////////////// Play Button//////////////////////////////////////                             
 		highscore.setFillColor(sf::Color::White);
-		highscore.setPosition(450, 750);
+		highscore.setPosition(160, 560);
 		highscore.setString("Leaderboard");
-		highscore.setCharacterSize(120);
+		highscore.setCharacterSize(60);
 		highscore.setFont(font);
 		/////////////////////////////////////////////High Score Button///////////////////////////////////
 		//store.setFillColor(sf::Color::White);
@@ -47,7 +48,7 @@ public:
 	void Play_Button(sf::RenderWindow& window)
 	{
 		mouse_pos = sf::Mouse::getPosition(window);
-		if (mouse_pos.x >= 450 && mouse_pos.x <= 930 && mouse_pos.y >= 650 && mouse_pos.y <= 770)
+		if (mouse_pos.x >= 320 && mouse_pos.x <= 560 && mouse_pos.y >= 480 && mouse_pos.y <= 540)
 		{ 
 			
 			play.setFillColor(sf::Color::Red);
@@ -70,7 +71,7 @@ public:
 	void HighScore_Button(sf::RenderWindow& window)
 	{
 		mouse_pos = sf::Mouse::getPosition(window);
-		if (mouse_pos.x >= 450 && mouse_pos.x <= 1770 && mouse_pos.y >= 750 && mouse_pos.y <= 870)
+		if (mouse_pos.x >= 160 && mouse_pos.x <= 820 && mouse_pos.y >= 560 && mouse_pos.y <= 620)
 		{
 			highscore.setFillColor(sf::Color::Red);
 		

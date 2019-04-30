@@ -15,7 +15,7 @@ public:
 	sf::CircleShape Actor;
 	bool wall[31][28] = {};
 	bool not_eaten_dots[31][28] = {};
-
+	bool node[31][28] = {};
 	Map()
 	{
 		texture.loadFromFile("Resources/Map/Map.png");
@@ -52,6 +52,10 @@ public:
 				else if (map[row][col] == 'd' || map[row][col] == 'n' || map[row][col] == 's')  // n Pacman node //s Ghost Nodes
 				{
 					not_eaten_dots[row][col] = true;
+				}
+				if(map[row][col] == 'n' || map[row][col] == 's' || map[row][col] == 'N' || map[row][col] == 'S')
+				{
+					node[row][col] = true;
 				}
 			}
 		}

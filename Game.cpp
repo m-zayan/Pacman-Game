@@ -16,7 +16,7 @@ void Game()
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 	Score Sscore;
-	Blinky blinky({ 405.0f,330.0f });
+	Blinky blinky({ 420.0f,330.0f });
 	Pinky pinky({ 375.0f,420.0f });
 	Inky inky({ 405.0f,420.0f });
 	Clyde clyde({ 435.0f,420 });
@@ -25,12 +25,10 @@ void Game()
 	Player Pacman({ 390.0f,690.0f });
 	Map map;
 	map.Actor.setRadius(15);
-	//map.Actor.setFillColor(sf::Color::Blue);
-	//int col2 = (blinky.s_Blinky.getPosition().x +15)/ 30;  //x
-	//int row2 = (blinky.s_Blinky.getPosition().y) / 30; //y
-	//std::cout<<col2<<" "<<row2<< std::endl;
-
-
+	//blinky.FindPath(Pacman, blinky);
+	sf::Clock clock;
+	sf::Time time;
+	float dt = 1/60;
 	while (window.isOpen())
 	{
 
@@ -47,7 +45,6 @@ void Game()
 
 
 
-		//std::cout<<col<<" "<<row<< std::endl;
 		//handel input;
 		sf::Vector2f direction = { 0.0f,0.0f };
 		if (event.key.code == sf::Keyboard::Up && map.wall[row - 1][col] != 1)
@@ -97,35 +94,15 @@ void Game()
 		}
 		Pacman.SetDirection(direction);
 
-		
-/*
-			sf::Vector2f dir = {};
-
-				dir.x = float(ghostMover.first[19].second - ghostMover.first[18].second);
-				dir.y = float(ghostMover.first[18].first - ghostMover.first[19].first);
-				std::cout << "x : " << dir.x << " " << "y : " << dir.y << std::endl;
-				if (dir.y == -1 && map.wall[Grow - 1][Gcol] != 1)
-				{
-					blinky.GhostDir(dir);
-				}
-				else if (dir.y == 1 && map.wall[Grow + 1][Gcol] != 1)
-				{
-					blinky.GhostDir(dir);
-				}
-				else if (dir.x == -1 && map.wall[Grow][Gcol - 1] != 1)
-				{
-					blinky.GhostDir(dir);
-				}
-				else if (dir.x == 1 && map.wall[Grow][Gcol + 1] != 1)
-				{
-					blinky.GhostDir(dir);
-				}*/
-
-			
+		//Gpos= blinky.FindPath(Pacman, blinky.s_Blinky);
+		//std::cout << Gpos.x << " " << Gpos.y << std::endl;
+		//blinky.s_Blinky.setPosition((Gpos.x * 30), Gpos.y * 30);
+		//Sleep(100);
 		//update model
 
+
 		Pacman.Update(1.0f / 30.0f);
-		blinky.Update(1.0f / 30.0f);  //Update red Animtion
+		blinky.Update(1,Pacman,blinky.s_Blinky);  //Update red Animtion
 		pinky.Update(1.0f / 30.0f);   //Update pink Animtion
 		inky.Update(1.0f / 30.0f);   //Update Blue Animtion
 		clyde.Update(1.0f / 30.0f);  //Update orange Animtion
@@ -150,9 +127,9 @@ void Game()
 		{
 			window.draw(map.Actor);
 			window.display();
-			Sleep(800);
-			Pacman.x = 390.0f;
-			Pacman.y = 690.0f;
+			//Sleep(800);
+			//Pacman.x = 390.0f;
+			//Pacman.y = 690.0f;
 		}
 
 		// window.draw(map.Actor);

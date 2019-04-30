@@ -12,6 +12,8 @@ class Player
 {
 public:
 	Player() = default;
+	sf::Sprite sprite;
+	sf::Vector2f velocity = { 0.0f,0.0f };
 	enum MOVE { UP, DOWN, LEFT, RIGHT }; //enums instead of remember numbers
 	bool move[4] = { false,false, false, false }; //deciding if You move up/down/left/right
 	bool walking=false;
@@ -206,8 +208,8 @@ public:
 private:
 	static constexpr float speed = 30.0f;
 	sf::Vector2f position;
-	sf::Vector2f velocity = { 0.0f,0.0f };
-	sf::Sprite sprite;
+	
+	
 	std::string pac = "Resources/Graphics/Pacman.png";
 	Animation animations[int(AnimationIndex::Count)];
 	AnimationIndex currentAnimation = AnimationIndex::rightStanding;
