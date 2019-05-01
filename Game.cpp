@@ -9,12 +9,13 @@
 #include"Inky.h"   //Blue Ghost
 #include"Clyde.h" //Orange Ghost
 #include"Game.h"
+#include"GameOver.h"
 sf::Event event;
 int key =3;
 void Game()
 {
 	bool gamePause = true;
-	int lives = 2;
+	int lives = 3;
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 	Score Sscore;
@@ -231,25 +232,34 @@ void Game()
 				break;
 			}
 		}
-		if (map.superDot_eaten == false && map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds()) ||
-			map.Actor.getGlobalBounds().intersects(inky.s_Inky.getGlobalBounds()) ||
-			map.Actor.getGlobalBounds().intersects(pinky.s_Pinky.getGlobalBounds())||
-			map.Actor.getGlobalBounds().intersects(clyde.s_Clyde.getGlobalBounds())) //life
+		if (map.superDot_eaten == false)
 		{
-			Pacman.Die(1 / 30, Pacman.sprite);
-			clock.restart();
-			time = clock.restart();
-			sgame.die[lives] = true;
-			lives--;
+			if (map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds()) ||
+				map.Actor.getGlobalBounds().intersects(inky.s_Inky.getGlobalBounds()) ||
+				map.Actor.getGlobalBounds().intersects(pinky.s_Pinky.getGlobalBounds()) ||
+				map.Actor.getGlobalBounds().intersects(clyde.s_Clyde.getGlobalBounds())) //life
+			{
+				Pacman.Die(1 / 30, Pacman.sprite);
+				clock.restart();
+				time = clock.restart();
+				sgame.die[lives - 1] = true;
+				lives--;
+
+			}
+		}
+		if (lives == 0)
+		{
+			window.setVisible(false);
+			window.setActive(false);
+			break;
 
 		}
-
 
 		// window.draw(map.Actor);
 		window.display();
 
 	}
 
-
+	GameOver();
 
 }

@@ -360,7 +360,7 @@ public:
 		{
 			currentAnimation = AnimationIndex::frightened;
 		}
-		else
+		else if(superDot_eaten == true && time.asSeconds() > 8)
 		{
 			currentAnimation = AnimationIndex::back;
 		}
