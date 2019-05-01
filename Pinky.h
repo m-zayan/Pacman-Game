@@ -94,6 +94,14 @@ public:
 		moving();
 		Pinky.setPosition(x, y);
 	}
+	void Update3(float deltaTime)
+	{
+		s_Pinky.setPosition(375, 420);
+		currentAnimation = AnimationIndex::upDirection;
+		animations[int(currentAnimation)].Update(deltaTime);
+		animations[int(currentAnimation)].ApplyToSprite(s_Pinky);
+
+	}
 private:
 	
 	Animation animations[int(AnimationIndex::Count)];

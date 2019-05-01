@@ -29,7 +29,7 @@ public:
 		animations[int(AnimationIndex::downDirection)] = Animation(64, 64, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::leftDirection)] = Animation(128, 64, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::rightDirection)] = Animation(192, 64, 32, 32, 2, 0.4f, path);
-		movespeed = 2;
+		movespeed = 1.5;
 		x = 420;
 		y = 420;
 
@@ -93,6 +93,13 @@ public:
 		dirmove(Gpos);
 		moving();
 		inky.setPosition(x, y);
+	}
+	void Update4(float deltaTime)
+	{
+		s_Inky.setPosition(405, 420);
+		currentAnimation = AnimationIndex::downDirection;
+		animations[int(currentAnimation)].Update(deltaTime);
+		animations[int(currentAnimation)].ApplyToSprite(s_Inky);
 	}
 private:
 	

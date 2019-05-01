@@ -30,7 +30,7 @@ void Game()
 	sf::Time time;
 	//pinky
 	sf::Vector2f pinky_to_pac;
-	
+
 
 	//inky 
 	sf::Vector2f inky_to_pac;
@@ -102,23 +102,23 @@ void Game()
 		Pacman.SetDirection(direction);
 
 
-		Pacman.Update(1.0f / 30.0f);		
-	
+		Pacman.Update(1.0f / 30.0f);
+		time = clock.getElapsedTime();
 		sf::Vector2f blinky_to_pac = { Pacman.x, Pacman.y };
 		//Pinky 4 spaces ahead of Pacman.
-		if (key == 4 && Pacman.x + (30 * 4) < 800 && Pacman.walking==true) 
+		if (key == 4 && Pacman.x + (30 * 4) < 800 && Pacman.walking == true)
 		{
-			pinky_to_pac = { Pacman.x+(30*4), Pacman.y };
+			pinky_to_pac = { Pacman.x + (30 * 4), Pacman.y };
 		}
-		else if(key==3 && Pacman.x - (30 * 4) > 0 && Pacman.walking == true)
+		else if (key == 3 && Pacman.x - (30 * 4) > 0 && Pacman.walking == true)
 		{
 			pinky_to_pac = { Pacman.x - (30 * 4), Pacman.y };
 		}
 		else if (key == 2 && Pacman.y + (30 * 4) < 910 && Pacman.walking == true)
 		{
-			pinky_to_pac = { Pacman.x , Pacman.y+ (30 * 4) };
+			pinky_to_pac = { Pacman.x , Pacman.y + (30 * 4) };
 		}
-		else if (key == 1 && Pacman.y - (30 * 4)>0 && Pacman.walking == true )
+		else if (key == 1 && Pacman.y - (30 * 4) > 0 && Pacman.walking == true)
 		{
 			pinky_to_pac = { Pacman.x , Pacman.y - (30 * 4) };
 		}
@@ -127,40 +127,67 @@ void Game()
 			pinky_to_pac = { Pacman.x, Pacman.y };
 		}
 		//inky 
-		 node1 = blinky.s_Blinky.getPosition();
-	    
-		 if (key == 4 && Pacman.x + (30 * 2) < 800 && Pacman.walking == true)
-		 {
-			 node2 = { Pacman.x + (30 * 2), Pacman.y };
-		 }
-		 else if (key == 3 && Pacman.x - (30 * 2) > 0 && Pacman.walking == true)
-		 {
+		node1 = blinky.s_Blinky.getPosition();
+
+		if (key == 4 && Pacman.x + (30 * 2) < 800 && Pacman.walking == true)
+		{
+			node2 = { Pacman.x + (30 * 2), Pacman.y };
+		}
+		else if (key == 3 && Pacman.x - (30 * 2) > 0 && Pacman.walking == true)
+		{
 			node2 = { Pacman.x - (30 * 2), Pacman.y };
-		 }
-		 else if (key == 2 && Pacman.y + (30 * 2) < 910 && Pacman.walking == true)
-		 {
-			 node2 = { Pacman.x , Pacman.y + (30 * 2) };
-		 }
-		 else if (key == 1 && Pacman.y - (30 * 2) > 0 && Pacman.walking == true)
-		 {
-			 node2 = { Pacman.x , Pacman.y - (30 * 2) };
-		 }
-		 if (node1.x + node2.x < 0 && node1.x + node2.x>800 && node1.y+node2.y<0 && node1.y + node2.y > 910)
-		 {
-			 inky_to_pac = { (node1 + node2) };
-		 }
-		 else
-		 {
-			 inky_to_pac = { Pacman.x, Pacman.y };
-		 }
-/////////////////////////////////Update Ghosts/////////////////////////////////////////////
+		}
+		else if (key == 2 && Pacman.y + (30 * 2) < 910 && Pacman.walking == true)
+		{
+			node2 = { Pacman.x , Pacman.y + (30 * 2) };
+		}
+		else if (key == 1 && Pacman.y - (30 * 2) > 0 && Pacman.walking == true)
+		{
+			node2 = { Pacman.x , Pacman.y - (30 * 2) };
+		}
+		if (node1.x + node2.x < 0 && node1.x + node2.x>800 && node1.y + node2.y < 0 && node1.y + node2.y > 910)
+		{
+			inky_to_pac = { (node1 + node2) };
+		}
+		else
+		{
+			inky_to_pac = { Pacman.x, Pacman.y };
+		}
+		/////////////////////////////////Update Ghosts/////////////////////////////////////////////
 
-
-		blinky.Update(1, blinky_to_pac, blinky.s_Blinky);  //Update red Animtion
-		pinky.Update(1, pinky_to_pac,pinky.s_Pinky);   //Update pink Animtion
-		inky.Update(1.0f / 30.0f, inky_to_pac,inky.s_Inky);   //Update Blue Animtion
-		clyde.Update(1.0f / 30.0f);  //Update orange Animtion
-///////////////////////////////////////////////////////////////////////////////////////////
+		if (time.asSeconds() >= 1)
+		{
+			blinky.Update(1, blinky_to_pac, blinky.s_Blinky);  //Update red Animtion
+		}
+		else
+		{
+			blinky.Update2(1);
+		}
+		if (time.asSeconds() >= 2)
+		{
+			pinky.Update(1, pinky_to_pac, pinky.s_Pinky);   //Update pink Animtion
+		}
+		else
+		{
+			pinky.Update3(1);
+		}
+		if (time.asSeconds() >= 5)
+		{
+			inky.Update(1.0f / 30.0f, inky_to_pac, inky.s_Inky);   //Update Blue Animtion
+		}
+		else
+		{
+			inky.Update4(1);
+		}
+		if (time.asSeconds() >= 7)
+		{
+			clyde.Update(1,blinky_to_pac,clyde.s_Clyde);  //Update orange Animtion
+		}
+		else
+		{
+			clyde.Update5(1);
+		}
+		///////////////////////////////////////////////////////////////////////////////////////////
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
 
 		window.clear();

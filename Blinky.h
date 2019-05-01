@@ -331,6 +331,14 @@ public:
 		blinky.setPosition(x, y);
 
 	}
+	void Update2(float deltaTime)
+	{
+		s_Blinky.setPosition(405, 330);
+		currentAnimation = AnimationIndex::downDirection;
+		animations[int(currentAnimation)].Update(deltaTime);
+		animations[int(currentAnimation)].ApplyToSprite(s_Blinky);
+	
+	}
 private:
 	
 	Animation animations[int(AnimationIndex::Count)];
