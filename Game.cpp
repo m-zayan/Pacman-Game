@@ -8,11 +8,13 @@
 #include"Pinky.h"  //Pink Ghost
 #include"Inky.h"   //Blue Ghost
 #include"Clyde.h" //Orange Ghost
+#include"Game.h"
 sf::Event event;
 int key =3;
 void Game()
 {
 	bool gamePause = true;
+	int lives = 2;
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 	Score Sscore;
@@ -25,7 +27,7 @@ void Game()
 	Player Pacman({ 390.0f,690.0f });
 	Map map;
 	map.Actor.setRadius(15);
-
+	GameS sgame;
 	sf::Clock clock;
 	sf::Clock frClock;
 	sf::Time time;
@@ -109,7 +111,7 @@ void Game()
 		
 		Pacman.Update(1.0f / 30.0f);
 
-		if (map.superDot_eaten == true && frTime.asSeconds()<=10)
+		if (map.superDot_eaten == true && frTime.asSeconds()<10)
 		{
 			frTime = frClock.getElapsedTime();
 			blinky.Frightened_Mode(1,frTime);
@@ -221,6 +223,7 @@ void Game()
 		inky.Draw(window);    //Draw Blue
 		clyde.Draw(window);   // Draw orange
 		Sscore.Display_Score(window);
+		sgame.Draw(window);
 		if (Sscore.score >= 2800)
 		{
 			if (map.win(Sscore) == true)
@@ -228,7 +231,7 @@ void Game()
 				break;
 			}
 		}
-		if ( map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds()) ||
+		if (map.superDot_eaten == false && map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds()) ||
 			map.Actor.getGlobalBounds().intersects(inky.s_Inky.getGlobalBounds()) ||
 			map.Actor.getGlobalBounds().intersects(pinky.s_Pinky.getGlobalBounds())||
 			map.Actor.getGlobalBounds().intersects(clyde.s_Clyde.getGlobalBounds())) //life
@@ -236,8 +239,11 @@ void Game()
 			Pacman.Die(1 / 30, Pacman.sprite);
 			clock.restart();
 			time = clock.restart();
+			sgame.die[lives] = true;
+			lives--;
 
 		}
+
 
 		// window.draw(map.Actor);
 		window.display();
