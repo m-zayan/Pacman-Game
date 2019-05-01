@@ -25,11 +25,17 @@ void Game()
 	Player Pacman({ 390.0f,690.0f });
 	Map map;
 	map.Actor.setRadius(15);
-	//blinky.FindPath(Pacman, blinky);
+
 	sf::Clock clock;
 	sf::Time time;
+	//pinky
 	sf::Vector2f pinky_to_pac;
-	float dt = 1/60;
+	
+
+	//inky 
+	sf::Vector2f inky_to_pac;
+	sf::Vector2f node1;
+	sf::Vector2f node2;
 	while (window.isOpen())
 	{
 
@@ -120,10 +126,41 @@ void Game()
 		{
 			pinky_to_pac = { Pacman.x, Pacman.y };
 		}
+		//inky 
+		 node1 = blinky.s_Blinky.getPosition();
+	    
+		 if (key == 4 && Pacman.x + (30 * 2) < 800 && Pacman.walking == true)
+		 {
+			 node2 = { Pacman.x + (30 * 2), Pacman.y };
+		 }
+		 else if (key == 3 && Pacman.x - (30 * 2) > 0 && Pacman.walking == true)
+		 {
+			node2 = { Pacman.x - (30 * 2), Pacman.y };
+		 }
+		 else if (key == 2 && Pacman.y + (30 * 2) < 910 && Pacman.walking == true)
+		 {
+			 node2 = { Pacman.x , Pacman.y + (30 * 2) };
+		 }
+		 else if (key == 1 && Pacman.y - (30 * 2) > 0 && Pacman.walking == true)
+		 {
+			 node2 = { Pacman.x , Pacman.y - (30 * 2) };
+		 }
+		 if (node1.x + node2.x < 0 && node1.x + node2.x>800 && node1.y+node2.y<0 && node1.y + node2.y > 910)
+		 {
+			 inky_to_pac = { (node1 + node2) };
+		 }
+		 else
+		 {
+			 inky_to_pac = { Pacman.x, Pacman.y };
+		 }
+/////////////////////////////////Update Ghosts/////////////////////////////////////////////
+
+
 		blinky.Update(1, blinky_to_pac, blinky.s_Blinky);  //Update red Animtion
 		pinky.Update(1, pinky_to_pac,pinky.s_Pinky);   //Update pink Animtion
-		inky.Update(1.0f / 30.0f);   //Update Blue Animtion
+		inky.Update(1.0f / 30.0f, inky_to_pac,inky.s_Inky);   //Update Blue Animtion
 		clyde.Update(1.0f / 30.0f);  //Update orange Animtion
+///////////////////////////////////////////////////////////////////////////////////////////
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
 
 		window.clear();
@@ -143,8 +180,8 @@ void Game()
 		}
 		if (map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds())) //life
 		{
-			window.draw(map.Actor);
-			window.display();
+			//window.draw(map.Actor);
+			//window.display();
 			//Sleep(800);
 			//Pacman.x = 390.0f;
 			//Pacman.y = 690.0f;
