@@ -100,7 +100,7 @@ public:
 	}
 	void Update3(float deltaTime,sf::Sprite& pinky)
 	{
-		pinky.setPosition(390, 420);
+		pinky.setPosition(375, 420);
 		x = 390;
 		y = 420;
 		walking = false;
