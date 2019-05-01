@@ -19,6 +19,8 @@ public:
 		downDirection,
 		rightDirection,
 		leftDirection,
+		frightened,
+		back,
 		Count
 	};
 	Pinky(const sf::Vector2f& position)
@@ -30,6 +32,8 @@ public:
 		animations[int(AnimationIndex::downDirection)] = Animation(64, 32, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::leftDirection)] = Animation(128, 32, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::rightDirection)] = Animation(192, 32, 32, 32, 2, 0.4f, path);
+		animations[int(AnimationIndex::frightened)] = Animation(0, 128, 32, 32, 2, 0.4f, path);
+		animations[int(AnimationIndex::back)] = Animation(0, 128, 32, 32, 3, 0.4f, path);
 		x = 390;
 		y = 420;
 		movespeed = 2;
@@ -101,6 +105,17 @@ public:
 		animations[int(currentAnimation)].Update(deltaTime);
 		animations[int(currentAnimation)].ApplyToSprite(s_Pinky);
 
+	}
+	void Frightened_Mode(bool superDot_eaten, sf::Time time)
+	{
+		if (superDot_eaten == true && time.asSeconds() < 8)
+		{
+			currentAnimation = AnimationIndex::frightened;
+		}
+		else
+		{
+			currentAnimation = AnimationIndex::back;
+		}
 	}
 private:
 	

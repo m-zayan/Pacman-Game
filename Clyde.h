@@ -18,6 +18,8 @@ public:
 		downDirection,
 		rightDirection,
 		leftDirection,
+		frightened,
+		back,
 		Count
 	};
 	Clyde(const sf::Vector2f& position)
@@ -29,6 +31,8 @@ public:
 		animations[int(AnimationIndex::downDirection)] = Animation(64, 96, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::leftDirection)] = Animation(128, 96, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::rightDirection)] = Animation(192, 96, 32, 32, 2, 0.4f, path);
+		animations[int(AnimationIndex::frightened)] = Animation(0, 128, 32, 32, 2, 0.4f, path);
+		animations[int(AnimationIndex::back)] = Animation(0, 128, 32, 32, 3, 0.4f, path);
 		movespeed = 2;
 		x = 450;
 		y = 420;
@@ -100,6 +104,17 @@ public:
 		currentAnimation = AnimationIndex::upDirection;
 		animations[int(currentAnimation)].Update(deltaTime);
 		animations[int(currentAnimation)].ApplyToSprite(s_Clyde);
+	}
+	void Frightened_Mode(bool superDot_eaten ,sf::Time time)
+	{
+		if (superDot_eaten == true && time.asSeconds()<8)
+		{
+			currentAnimation = AnimationIndex::frightened;
+		}
+		else
+		{
+			currentAnimation = AnimationIndex::back;
+		}
 	}
 private:
 

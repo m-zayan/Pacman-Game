@@ -15,6 +15,7 @@
 class Blinky
 {
 public:
+
 	Blinky() = default;
 	sf::Sprite s_Blinky;
 	enum MOVE { UP, DOWN, LEFT, RIGHT }; //enums instead of remember numbers
@@ -24,7 +25,8 @@ public:
 	float x = 420;
 	float y = 330;
 	float movespeed = 3;
-	char map[31][28];
+	char map[31][28];	
+
 	struct point
 	{
 		int x, y;
@@ -161,6 +163,8 @@ public:
 		downDirection,
 		rightDirection,
 		leftDirection,
+		frightened,
+		back,
 		Count
 	};
 	Blinky(const sf::Vector2f& position)
@@ -172,6 +176,8 @@ public:
 		animations[int(AnimationIndex::downDirection)] = Animation(64, 0, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::leftDirection)] = Animation(128, 0, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::rightDirection)] = Animation(192, 0, 32, 32, 2, 0.4f, path);
+		animations[int(AnimationIndex::frightened)] = Animation(0, 128,32, 32, 2, 0.4f, path);
+		animations[int(AnimationIndex::back)] = Animation(0, 128, 32, 32, 3, 0.4f, path);
 
 	}
 	void Draw(sf::RenderWindow& window) const
@@ -281,22 +287,23 @@ public:
 		animations[int(currentAnimation)].Update(deltaTime);
 		animations[int(currentAnimation)].ApplyToSprite(s_Blinky);
 		Gpos = FindPath(Pacman, blinky);
-		if (Gpos.x > 0)
+		if (Gpos.x > 0 && node.superDot_eaten==false)
 		{
 			currentAnimation = AnimationIndex::rightDirection;
 		}
-		else if(Gpos.x<0)
+		else if(Gpos.x<0 && node.superDot_eaten == false)
 		{
 			currentAnimation = AnimationIndex::leftDirection;
 		}
-		else if (Gpos.y < 0)
+		else if (Gpos.y < 0 && node.superDot_eaten == false)
 		{
 			currentAnimation = AnimationIndex::upDirection;
 		}
-		else if (Gpos.y > 0)
+		else if (Gpos.y > 0 && node.superDot_eaten == false)
 		{
 			currentAnimation = AnimationIndex::downDirection;
 		}
+
 		int Grow = int(y / 30);
 		int Gcol = int(x / 30);
 	
@@ -338,6 +345,17 @@ public:
 		animations[int(currentAnimation)].Update(deltaTime);
 		animations[int(currentAnimation)].ApplyToSprite(s_Blinky);
 	
+	}
+	void Frightened_Mode(bool superDot_eaten  , sf::Time time)
+	{
+		if (superDot_eaten == true && time.asSeconds()<8)
+		{
+			currentAnimation = AnimationIndex::frightened;
+		}
+		else
+		{
+			currentAnimation = AnimationIndex::back;
+		}
 	}
 private:
 	

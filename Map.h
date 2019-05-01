@@ -13,9 +13,11 @@ class Map
 {
 public:
 	sf::CircleShape Actor;
+	bool superDot_eaten = false;
 	bool wall[31][28] = {};
 	bool not_eaten_dots[31][28] = {};
 	bool node[31][28] = {};
+	bool not_eaten_SuperDots[31][28] = {};
 	Map()
 	{
 		texture.loadFromFile("Resources/Map/Map.png");
@@ -52,6 +54,10 @@ public:
 				else if (map[row][col] == 'd' || map[row][col] == 'n' || map[row][col] == 's')  // n Pacman node //s Ghost Nodes
 				{
 					not_eaten_dots[row][col] = true;
+				}
+				else if (map[row][col] == 'D')
+				{
+					not_eaten_SuperDots[row][col] = true;
 				}
 				if(map[row][col] == 'n' || map[row][col] == 's' || map[row][col] == 'N' || map[row][col] == 'S')
 				{
@@ -94,7 +100,19 @@ public:
 				else if (map[row][col] == 'D') //Super dots.
 				{
 					superDots.setPosition((col * 30.0f) + 15, (row * 30.0f) + 15);
-					window.draw(superDots);
+					if (not_eaten_SuperDots[row][col] == true)
+					{
+						window.draw(superDots);
+						if (Actor.getGlobalBounds().intersects(superDots.getGlobalBounds()))
+						{
+							not_eaten_SuperDots[row][col] = false;
+							Sscore.score += 100;
+							Sscore.Sscore.str("");
+							Sscore.Sscore << "Score : " << Sscore.score;
+							Sscore.text.setString(Sscore.Sscore.str());
+							superDot_eaten = true;
+						}
+					}
 				}
 
 			}

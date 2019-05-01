@@ -27,7 +27,9 @@ void Game()
 	map.Actor.setRadius(15);
 
 	sf::Clock clock;
+	sf::Clock frClock;
 	sf::Time time;
+	sf::Time frTime;
 	//pinky
 	sf::Vector2f pinky_to_pac;
 
@@ -101,8 +103,26 @@ void Game()
 		}
 		Pacman.SetDirection(direction);
 
-
+		
 		Pacman.Update(1.0f / 30.0f);
+
+		if (map.superDot_eaten == true && frTime.asSeconds()<=10)
+		{
+			frTime = frClock.getElapsedTime();
+			blinky.Frightened_Mode(1,frTime);
+			inky.Frightened_Mode(1, frTime);
+			clyde.Frightened_Mode(1, frTime);
+			pinky.Frightened_Mode(1, frTime);
+
+			//std::cout << frTime.asSeconds() << std::endl;
+		}
+	    if(frTime.asSeconds()>10 && map.superDot_eaten ==true )
+		{
+			frClock.restart();
+			frTime = frClock.restart();
+			map.superDot_eaten = false;
+			std::cout << frTime.asSeconds() << std::endl;
+		}
 		time = clock.getElapsedTime();
 		sf::Vector2f blinky_to_pac = { Pacman.x, Pacman.y };
 		//Pinky 4 spaces ahead of Pacman.
@@ -179,7 +199,7 @@ void Game()
 		{
 			inky.Update4(1);
 		}
-		if (time.asSeconds() >= 7)
+		if (time.asSeconds() >= 10)
 		{
 			clyde.Update(1,blinky_to_pac,clyde.s_Clyde);  //Update orange Animtion
 		}
@@ -198,7 +218,7 @@ void Game()
 		inky.Draw(window);    //Draw Blue
 		clyde.Draw(window);   // Draw orange
 		Sscore.Display_Score(window);
-		if (Sscore.score >= 2400)
+		if (Sscore.score >= 2800)
 		{
 			if (map.win(Sscore) == true)
 			{
