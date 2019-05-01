@@ -84,7 +84,7 @@ public:
 		}
 	}
 
-	sf::Vector2f FindPath(Player Pacman, sf::Sprite& s_Blinky)
+	sf::Vector2f FindPath(sf::Vector2f Pacman, sf::Sprite& s_Blinky)
 
 	{
 
@@ -147,8 +147,8 @@ public:
 		//std::cout<<path[cnt].second- path[cnt-1].second <<" " << path[cnt-1].first-path[cnt].first<<std::endl;
 		if (cnt > 0)
 		{
-			dir.x = path[cnt-1].second- path[cnt].second;
-			dir.y = path[cnt-1].first- path[cnt].first;
+			dir.x = (float)path[cnt-1].second- path[cnt].second;
+			dir.y = (float)path[cnt-1].first- path[cnt].first;
 		}
 			return dir;
 		
@@ -275,9 +275,9 @@ public:
 			}
 		}
 	}
-	void Update(float deltaTime , Player& Pacman,sf::Sprite& blinky)
+	void Update(float deltaTime , sf::Vector2f Pacman,sf::Sprite& blinky)
 	{
-		sf::Vector2f Gpos;
+		prevP = Gpos;
 		animations[int(currentAnimation)].Update(deltaTime);
 		animations[int(currentAnimation)].ApplyToSprite(s_Blinky);
 		Gpos = FindPath(Pacman, blinky);
@@ -297,6 +297,35 @@ public:
 		{
 			currentAnimation = AnimationIndex::downDirection;
 		}
+		int Grow = int(y / 30);
+		int Gcol = int(x / 30);
+	
+		//These conditions prevent ghosts Backtracking.
+		if (Gpos.x==0 && prevP.y != 0 && node.wall[Grow - 1][Gcol] != 1 && node.wall[Grow + 1][Gcol] != 1 && Gpos.y == (prevP.y*-1)) 
+		{
+			Gpos.y *= -1;
+			if (currentAnimation == AnimationIndex::upDirection)
+			{
+				currentAnimation = AnimationIndex::downDirection;
+			}
+			else
+			{
+				currentAnimation = AnimationIndex::upDirection;
+			}
+			
+		}
+		if (Gpos.y == 0 && prevP.x != 0 && node.wall[Grow][Gcol - 1] != 1 && node.wall[Grow ][Gcol+ 1] != 1 && Gpos.x == (prevP.x*-1))
+		{
+			Gpos.x *= -1;
+			if (currentAnimation == AnimationIndex::rightDirection)
+			{
+				currentAnimation = AnimationIndex::leftDirection;
+			}
+			else
+			{
+				currentAnimation = AnimationIndex::rightDirection;
+			}
+		}
 		dirmove(Gpos);
 		moving();
 		blinky.setPosition(x, y);
@@ -307,6 +336,9 @@ private:
 	Animation animations[int(AnimationIndex::Count)];
 	AnimationIndex currentAnimation = AnimationIndex::downStanding;
 	std::string path = "Resources/Graphics/Ghost.png";
+	sf::Vector2f Gpos;
+	sf::Vector2f prevP = {};
+	Map node;
 
 };
 

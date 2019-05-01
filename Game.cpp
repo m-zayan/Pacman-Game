@@ -28,6 +28,7 @@ void Game()
 	//blinky.FindPath(Pacman, blinky);
 	sf::Clock clock;
 	sf::Time time;
+	sf::Vector2f pinky_to_pac;
 	float dt = 1/60;
 	while (window.isOpen())
 	{
@@ -94,16 +95,33 @@ void Game()
 		}
 		Pacman.SetDirection(direction);
 
-		//Gpos= blinky.FindPath(Pacman, blinky.s_Blinky);
-		//std::cout << Gpos.x << " " << Gpos.y << std::endl;
-		//blinky.s_Blinky.setPosition((Gpos.x * 30), Gpos.y * 30);
-		//Sleep(100);
-		//update model
 
-
-		Pacman.Update(1.0f / 30.0f);
-		blinky.Update(1,Pacman,blinky.s_Blinky);  //Update red Animtion
-		pinky.Update(1.0f / 30.0f);   //Update pink Animtion
+		Pacman.Update(1.0f / 30.0f);		
+	
+		sf::Vector2f blinky_to_pac = { Pacman.x, Pacman.y };
+		//Pinky 4 spaces ahead of Pacman.
+		if (key == 4 && Pacman.x + (30 * 4) < 800 && Pacman.walking==true) 
+		{
+			pinky_to_pac = { Pacman.x+(30*4), Pacman.y };
+		}
+		else if(key==3 && Pacman.x - (30 * 4) > 0 && Pacman.walking == true)
+		{
+			pinky_to_pac = { Pacman.x - (30 * 4), Pacman.y };
+		}
+		else if (key == 2 && Pacman.y + (30 * 4) < 910 && Pacman.walking == true)
+		{
+			pinky_to_pac = { Pacman.x , Pacman.y+ (30 * 4) };
+		}
+		else if (key == 1 && Pacman.y - (30 * 4)>0 && Pacman.walking == true )
+		{
+			pinky_to_pac = { Pacman.x , Pacman.y - (30 * 4) };
+		}
+		else
+		{
+			pinky_to_pac = { Pacman.x, Pacman.y };
+		}
+		blinky.Update(1, blinky_to_pac, blinky.s_Blinky);  //Update red Animtion
+		pinky.Update(1, pinky_to_pac,pinky.s_Pinky);   //Update pink Animtion
 		inky.Update(1.0f / 30.0f);   //Update Blue Animtion
 		clyde.Update(1.0f / 30.0f);  //Update orange Animtion
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
