@@ -338,12 +338,20 @@ public:
 		blinky.setPosition(x, y);
 
 	}
-	void Update2(float deltaTime)
+	void Update2(float deltaTime,sf::Sprite& blinky)
 	{
-		s_Blinky.setPosition(405, 330);
+		blinky.setPosition(405, 330);
+		x = 420;
+		y = 330;
+		walking = false;
+		move[UP] = false;
+		move[DOWN] = false;
+		move[LEFT] = false;
+		move[RIGHT] = false;
+		prevP = {};
 		currentAnimation = AnimationIndex::downDirection;
 		animations[int(currentAnimation)].Update(deltaTime);
-		animations[int(currentAnimation)].ApplyToSprite(s_Blinky);
+		animations[int(currentAnimation)].ApplyToSprite(blinky);
 	
 	}
 	void Frightened_Mode(bool superDot_eaten  , sf::Time time)

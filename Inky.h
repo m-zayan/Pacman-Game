@@ -99,12 +99,20 @@ public:
 		moving();
 		inky.setPosition(x, y);
 	}
-	void Update4(float deltaTime)
+	void Update4(float deltaTime, sf::Sprite& inky)
 	{
-		s_Inky.setPosition(405, 420);
+		inky.setPosition(405, 420);
+		x = 420;
+		y = 420;
+		walking = false;
+		move[UP] = false;
+		move[DOWN] = false;
+		move[LEFT] = false;
+		move[RIGHT] = false;
+		prevP = {};
 		currentAnimation = AnimationIndex::downDirection;
 		animations[int(currentAnimation)].Update(deltaTime);
-		animations[int(currentAnimation)].ApplyToSprite(s_Inky);
+		animations[int(currentAnimation)].ApplyToSprite(inky);
 	}
 	void Frightened_Mode(bool superDot_eaten,sf::Time time)
 	{

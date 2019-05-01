@@ -98,12 +98,20 @@ public:
 		moving();
 		s_Clyde.setPosition(x, y);
 	}
-	void Update5(float deltaTime)
+	void Update5(float deltaTime, sf::Sprite& clyde)
 	{
-		s_Clyde.setPosition(435, 420);
+		clyde.setPosition(435, 420);
+		x = 450;
+		y = 420;
+		walking = false;
+		move[UP] = false;
+		move[DOWN] = false;
+		move[LEFT] = false;
+		move[RIGHT] = false;
+		prevP = {};
 		currentAnimation = AnimationIndex::upDirection;
 		animations[int(currentAnimation)].Update(deltaTime);
-		animations[int(currentAnimation)].ApplyToSprite(s_Clyde);
+		animations[int(currentAnimation)].ApplyToSprite(clyde);
 	}
 	void Frightened_Mode(bool superDot_eaten ,sf::Time time)
 	{

@@ -9,7 +9,7 @@
 #include"Inky.h"   //Blue Ghost
 #include"Clyde.h" //Orange Ghost
 sf::Event event;
-int key = 0;
+int key =3;
 void Game()
 {
 	bool gamePause = true;
@@ -56,50 +56,53 @@ void Game()
 
 		//handel input;
 		sf::Vector2f direction = { 0.0f,0.0f };
-		if (event.key.code == sf::Keyboard::Up && map.wall[row - 1][col] != 1)
+		if (time.asSeconds() > 0.5)
 		{
+			if (event.key.code == sf::Keyboard::Up && map.wall[row - 1][col] != 1)
+			{
 
-			direction.y -= 1.0f;
-			Pacman.keymove(1);
-			key = 1;
-		}
-		else if (event.key.code == sf::Keyboard::Down && map.wall[row + 1][col] != 1)
-		{
-			direction.y += 1.0f;
-			Pacman.keymove(2);
-			key = 2;
-		}
-		else if (event.key.code == sf::Keyboard::Right && map.wall[row][col + 1] != 1)
-		{
-			direction.x += 1.0f;
-			Pacman.keymove(4);
-			key = 4;
-		}
-		else if (event.key.code == sf::Keyboard::Left && map.wall[row][col - 1] != 1)
-		{
-			direction.x -= 1.0f;
-			Pacman.keymove(3);
-			key = 3;
-		}
-		else if (key == 1 && map.wall[row - 1][col] != 1)
-		{
-			direction.y -= 1.0f;
-			Pacman.keymove(key);
-		}
-		else if (key == 2 && map.wall[row + 1][col] != 1)
-		{
-			direction.y += 1.0f;
-			Pacman.keymove(key);
-		}
-		else if (key == 3 && map.wall[row][col - 1] != 1)
-		{
-			direction.x -= 1.0f;
-			Pacman.keymove(key);
-		}
-		else if (key == 4 && map.wall[row][col + 1] != 1)
-		{
-			direction.x += 1.0f;
-			Pacman.keymove(key);
+				direction.y -= 1.0f;
+				Pacman.keymove(1);
+				key = 1;
+			}
+			else if (event.key.code == sf::Keyboard::Down && map.wall[row + 1][col] != 1)
+			{
+				direction.y += 1.0f;
+				Pacman.keymove(2);
+				key = 2;
+			}
+			else if (event.key.code == sf::Keyboard::Right && map.wall[row][col + 1] != 1)
+			{
+				direction.x += 1.0f;
+				Pacman.keymove(4);
+				key = 4;
+			}
+			else if (event.key.code == sf::Keyboard::Left && map.wall[row][col - 1] != 1)
+			{
+				direction.x -= 1.0f;
+				Pacman.keymove(3);
+				key = 3;
+			}
+			else if (key == 1 && map.wall[row - 1][col] != 1)
+			{
+				direction.y -= 1.0f;
+				Pacman.keymove(key);
+			}
+			else if (key == 2 && map.wall[row + 1][col] != 1)
+			{
+				direction.y += 1.0f;
+				Pacman.keymove(key);
+			}
+			else if (key == 3 && map.wall[row][col - 1] != 1)
+			{
+				direction.x -= 1.0f;
+				Pacman.keymove(key);
+			}
+			else if (key == 4 && map.wall[row][col + 1] != 1)
+			{
+				direction.x += 1.0f;
+				Pacman.keymove(key);
+			}
 		}
 		Pacman.SetDirection(direction);
 
@@ -181,7 +184,7 @@ void Game()
 		}
 		else
 		{
-			blinky.Update2(1);
+			blinky.Update2(1,blinky.s_Blinky);
 		}
 		if (time.asSeconds() >= 2)
 		{
@@ -189,7 +192,7 @@ void Game()
 		}
 		else
 		{
-			pinky.Update3(1);
+			pinky.Update3(1,pinky.s_Pinky);
 		}
 		if (time.asSeconds() >= 5)
 		{
@@ -197,7 +200,7 @@ void Game()
 		}
 		else
 		{
-			inky.Update4(1);
+			inky.Update4(1,inky.s_Inky);
 		}
 		if (time.asSeconds() >= 10)
 		{
@@ -205,7 +208,7 @@ void Game()
 		}
 		else
 		{
-			clyde.Update5(1);
+			clyde.Update5(1, clyde.s_Clyde);
 		}
 		///////////////////////////////////////////////////////////////////////////////////////////
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
@@ -225,13 +228,15 @@ void Game()
 				break;
 			}
 		}
-		if (map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds())) //life
+		if ( map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds()) ||
+			map.Actor.getGlobalBounds().intersects(inky.s_Inky.getGlobalBounds()) ||
+			map.Actor.getGlobalBounds().intersects(pinky.s_Pinky.getGlobalBounds())||
+			map.Actor.getGlobalBounds().intersects(clyde.s_Clyde.getGlobalBounds())) //life
 		{
-			//window.draw(map.Actor);
-			//window.display();
-			//Sleep(800);
-			//Pacman.x = 390.0f;
-			//Pacman.y = 690.0f;
+			Pacman.Die(1 / 30, Pacman.sprite);
+			clock.restart();
+			time = clock.restart();
+
 		}
 
 		// window.draw(map.Actor);

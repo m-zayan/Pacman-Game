@@ -204,6 +204,21 @@ public:
 		sprite.setPosition(x,y);
 		//std::cout << "position X :" << x/30 << " " << "Position Y :" << y/30 <<std:: endl;
 	}
+	void Die(float deltaTime,sf::Sprite& Pacman)
+	{
+		Pacman.setPosition(390, 690);
+		currentAnimation = AnimationIndex::leftStanding;
+		animations[int(currentAnimation)].Update(deltaTime);
+		animations[int(currentAnimation)].ApplyToSprite(Pacman);
+		x = 390;
+		y = 690;
+		walking = false;
+		move[UP] = false;
+		move[DOWN] = false;
+		move[LEFT] = false;
+		move[RIGHT] = false;
+		velocity = { 0.0f,0.0f };
+	}
 
 private:
 	static constexpr float speed = 30.0f;
@@ -212,7 +227,7 @@ private:
 	
 	std::string pac = "Resources/Graphics/Pacman.png";
 	Animation animations[int(AnimationIndex::Count)];
-	AnimationIndex currentAnimation = AnimationIndex::rightStanding;
+	AnimationIndex currentAnimation = AnimationIndex::leftStanding;
 
 };
 

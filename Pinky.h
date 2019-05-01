@@ -98,12 +98,20 @@ public:
 		moving();
 		Pinky.setPosition(x, y);
 	}
-	void Update3(float deltaTime)
+	void Update3(float deltaTime,sf::Sprite& pinky)
 	{
-		s_Pinky.setPosition(375, 420);
+		pinky.setPosition(390, 420);
+		x = 390;
+		y = 420;
+		walking = false;
+		move[UP] = false;
+		move[DOWN] = false;
+		move[LEFT] = false;
+		move[RIGHT] = false;
+		prevP = {};
 		currentAnimation = AnimationIndex::upDirection;
 		animations[int(currentAnimation)].Update(deltaTime);
-		animations[int(currentAnimation)].ApplyToSprite(s_Pinky);
+		animations[int(currentAnimation)].ApplyToSprite(pinky);
 
 	}
 	void Frightened_Mode(bool superDot_eaten, sf::Time time)
