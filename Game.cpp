@@ -12,10 +12,12 @@
 #include"GameOver.h"
 sf::Event event;
 int key =3;
+	int lives = 3;
+	int leve = 1;
 void Game()
 {
 	bool gamePause = true;
-	int lives = 3;
+	enum Sound { START, Eating, Death };
 	sf::RenderWindow window(sf::VideoMode(840, 980), "Pacman");
 	window.setPosition(sf::Vector2i(480, 0));
 	Score Sscore;
@@ -27,6 +29,7 @@ void Game()
 	window.setKeyRepeatEnabled(false);
 	Player Pacman({ 390.0f,690.0f });
 	Map map;
+	map.superDot_eaten = false;
 	map.Actor.setRadius(15);
 	GameS sgame;
 	sf::Clock clock;
@@ -35,12 +38,15 @@ void Game()
 	sf::Time frTime;
 	//pinky
 	sf::Vector2f pinky_to_pac;
-
-
+	sgame.Play_Sound(START);
 	//inky 
 	sf::Vector2f inky_to_pac;
 	sf::Vector2f node1;
 	sf::Vector2f node2;
+	bool Geaten = false;
+	bool Geaten1 = false;
+	bool Geaten2 = false;
+	bool Geaten3 = false;
 	while (window.isOpen())
 	{
 
@@ -111,23 +117,21 @@ void Game()
 
 		
 		Pacman.Update(1.0f / 30.0f);
-
 		if (map.superDot_eaten == true && frTime.asSeconds()<10)
 		{
 			frTime = frClock.getElapsedTime();
-			blinky.Frightened_Mode(1,frTime);
-			inky.Frightened_Mode(1, frTime);
-			clyde.Frightened_Mode(1, frTime);
-			pinky.Frightened_Mode(1, frTime);
-
-			//std::cout << frTime.asSeconds() << std::endl;
+			blinky.Frightened_Mode(1,frTime, Geaten);
+			inky.Frightened_Mode(1, frTime, Geaten2);
+			clyde.Frightened_Mode(1, frTime, Geaten3);
+			pinky.Frightened_Mode(1, frTime,Geaten1);
+			
+			
 		}
 	    if(frTime.asSeconds()>10 && map.superDot_eaten ==true )
 		{
 			frClock.restart();
 			frTime = frClock.restart();
 			map.superDot_eaten = false;
-			std::cout << frTime.asSeconds() << std::endl;
 		}
 		time = clock.getElapsedTime();
 		sf::Vector2f blinky_to_pac = { Pacman.x, Pacman.y };
@@ -181,37 +185,39 @@ void Game()
 		}
 		/////////////////////////////////Update Ghosts/////////////////////////////////////////////
 
-		if (time.asSeconds() >= 1)
+		if (time.asSeconds() >= 4) //Chase Mode
 		{
 			blinky.Update(1, blinky_to_pac, blinky.s_Blinky);  //Update red Animtion
+			
 		}
 		else
 		{
-			blinky.Update2(1,blinky.s_Blinky);
+			blinky.Update2(0.5f,blinky.s_Blinky);
+
 		}
-		if (time.asSeconds() >= 2)
+		if (time.asSeconds() >= 5) //Chase Mode
 		{
 			pinky.Update(1, pinky_to_pac, pinky.s_Pinky);   //Update pink Animtion
 		}
 		else
 		{
-			pinky.Update3(1,pinky.s_Pinky);
+			pinky.Update3(0.5f,pinky.s_Pinky);
 		}
-		if (time.asSeconds() >= 5)
+		if (time.asSeconds() >= 8) //Chase Mode
 		{
-			inky.Update(1.0f / 30.0f, inky_to_pac, inky.s_Inky);   //Update Blue Animtion
+			inky.Update(1, inky_to_pac, inky.s_Inky);   //Update Blue Animtion
 		}
 		else
 		{
-			inky.Update4(1,inky.s_Inky);
+			inky.Update4(0.5f,inky.s_Inky);
 		}
-		if (time.asSeconds() >= 10)
+		if (time.asSeconds() >= 10) //Chase Mode
 		{
 			clyde.Update(1,blinky_to_pac,clyde.s_Clyde);  //Update orange Animtion
 		}
 		else
 		{
-			clyde.Update5(1, clyde.s_Clyde);
+			clyde.Update5(0.5f, clyde.s_Clyde);
 		}
 		///////////////////////////////////////////////////////////////////////////////////////////
 		map.Actor.setPosition(Pacman.x, Pacman.y); //Follow Pacman 
@@ -244,6 +250,29 @@ void Game()
 				time = clock.restart();
 				sgame.die[lives - 1] = true;
 				lives--;
+				sgame.Play_Sound(Death);
+			}
+		}
+		else if (map.superDot_eaten==true)
+		{
+			if (map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds()) )
+			{
+				Geaten = true;
+
+			}
+			if (map.Actor.getGlobalBounds().intersects(pinky.s_Pinky.getGlobalBounds()))
+			{
+				Geaten1 = true;
+
+			}
+			if (map.Actor.getGlobalBounds().intersects(inky.s_Inky.getGlobalBounds()))
+			{
+				Geaten2 = true;
+
+			}
+			if (map.Actor.getGlobalBounds().intersects(clyde.s_Clyde.getGlobalBounds()))
+			{
+				Geaten3 = true;
 
 			}
 		}
@@ -251,6 +280,7 @@ void Game()
 		{
 			window.setVisible(false);
 			window.setActive(false);
+			leve = 1;
 			break;
 
 		}
@@ -259,7 +289,15 @@ void Game()
 		window.display();
 
 	}
-
-	GameOver();
-
+	if (lives == 0)
+	{
+		lives = 3;
+		leve = 1;
+		GameOver();
+	}
+	else if (event.type!=sf::Event::Closed)
+	{
+		leve++;
+		Game();
+	}
 }

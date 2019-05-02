@@ -4,6 +4,7 @@
 #include"HighScore.h"
 #include<fstream>
 #include<string>
+#include"Game.h"
 #ifndef Map_H
 
 
@@ -89,7 +90,9 @@ public:
 						window.draw(PacDots);
 						if (Actor.getGlobalBounds().intersects(PacDots.getGlobalBounds()))
 						{
+							
 							not_eaten_dots[row][col] = false;
+							sgame.Play_Sound(1);
 								Sscore.score += 10;
                                Sscore.Sscore.str("");
 	                      Sscore.Sscore << "Score : " << Sscore.score;
@@ -106,6 +109,7 @@ public:
 						if (Actor.getGlobalBounds().intersects(superDots.getGlobalBounds()))
 						{
 							not_eaten_SuperDots[row][col] = false;
+							sgame.Play_Sound(1);
 							Sscore.score += 100;
 							Sscore.Sscore.str("");
 							Sscore.Sscore << "Score : " << Sscore.score;
@@ -153,6 +157,7 @@ private:
 	std::ofstream oFile;
 	char map[31][28];
 	Player Pacman;
+	GameS sgame;
 
 };
 

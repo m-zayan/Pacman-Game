@@ -21,6 +21,7 @@ public:
 		leftDirection,
 		frightened,
 		back,
+		die,
 		Count
 	};
 	Pinky(const sf::Vector2f& position)
@@ -34,6 +35,7 @@ public:
 		animations[int(AnimationIndex::rightDirection)] = Animation(192, 32, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::frightened)] = Animation(0, 128, 32, 32, 2, 0.4f, path);
 		animations[int(AnimationIndex::back)] = Animation(0, 128, 32, 32, 3, 0.4f, path);
+		animations[int(AnimationIndex::die)] = Animation(128, 128, 32, 32, 3, 0.4f, path);
 		x = 390;
 		y = 420;
 		movespeed = 2;
@@ -66,12 +68,25 @@ public:
 		{
 			currentAnimation = AnimationIndex::downDirection;
 		}
-		int Grow = int(y / 30);
+int Grow = int(y / 30);
 		int Gcol = int(x / 30);
+
 		//These conditions prevent ghosts Backtracking.
-		if (Gpos.x == 0 && prevP.y != 0 && node.wall[Grow - 1][Gcol] != 1 && node.wall[Grow + 1][Gcol] != 1 && Gpos.y == (prevP.y*-1))
+		if (prevP.y != 0 && (Gpos.y*-1) == (prevP.y))
 		{
-			Gpos.y *= -1;
+			Gpos.y = prevP.y;
+			if (node.wall[Grow-1][Gcol] == 1 || node.wall[Grow+1][Gcol] == 1)
+			{
+				Gpos.y = 0;
+				if (node.wall[Grow][Gcol - 1] != 1)
+				{
+					Gpos.x = -1;
+				}
+				else if(node.wall[Grow][Gcol + 1] != 1)
+				{
+					Gpos.x = 1;
+				}
+			}
 			if (currentAnimation == AnimationIndex::upDirection)
 			{
 				currentAnimation = AnimationIndex::downDirection;
@@ -80,11 +95,23 @@ public:
 			{
 				currentAnimation = AnimationIndex::upDirection;
 			}
-
+			
 		}
-		if (Gpos.y == 0 && prevP.x != 0 && node.wall[Grow][Gcol - 1] != 1 && node.wall[Grow][Gcol + 1] != 1 && Gpos.x == (prevP.x*-1))
+		if (prevP.x != 0 && (Gpos.x*-1) == (prevP.x))
 		{
-			Gpos.x *= -1;
+			Gpos.x = prevP.x;
+			if (node.wall[Grow][Gcol+1] == 1 || node.wall[Grow][Gcol - 1] == 1)
+			{
+				Gpos.x = 0;
+				if (node.wall[Grow- 1][Gcol ] != 1)
+				{
+					Gpos.y = -1;
+				}
+				else if (node.wall[Grow+1][Gcol] != 1)
+				{
+					Gpos.y = 1;
+				}
+			}
 			if (currentAnimation == AnimationIndex::rightDirection)
 			{
 				currentAnimation = AnimationIndex::leftDirection;
@@ -114,11 +141,15 @@ public:
 		animations[int(currentAnimation)].ApplyToSprite(pinky);
 
 	}
-	void Frightened_Mode(bool superDot_eaten, sf::Time time)
+	void Frightened_Mode(bool superDot_eaten, sf::Time time,bool eaten)
 	{
 		if (superDot_eaten == true && time.asSeconds() < 8)
 		{
 			currentAnimation = AnimationIndex::frightened;
+		}
+		if (eaten==true)
+		{
+			currentAnimation = AnimationIndex::die;
 		}
 		else
 		{

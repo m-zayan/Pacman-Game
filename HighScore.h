@@ -21,7 +21,7 @@ public:
 		text.setFillColor(sf::Color::Red);
 		text.setStyle(sf::Text::Bold);
 		text.setCharacterSize(30);
-		text.setPosition(600, 930);
+		text.setPosition(100, 930);
 		text.setString(Sscore.str());
 	}
 	void Display_Score(sf::RenderWindow& window)

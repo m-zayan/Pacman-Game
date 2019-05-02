@@ -54,6 +54,8 @@ public:
 			play.setFillColor(sf::Color::Red);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
+				sgame.Menu_Selection_Sound.play();
+				sgame.Play_Sound(3);
 				if (window.isOpen())
 				{
 
@@ -77,6 +79,8 @@ public:
 		
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
+				sgame.Menu_Selection_Sound.play();
+				sgame.Play_Sound(3);
 				if (window.isOpen())
 				{
 
@@ -108,6 +112,7 @@ private:
 	sf::Mouse mouse;
 	sf::Event event;
 	sf::Vector2i mouse_pos;
+	GameS sgame;
 	};
 
 
