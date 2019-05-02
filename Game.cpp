@@ -11,7 +11,7 @@
 #include"Game.h"
 #include"GameOver.h"
 sf::Event event;
-int key =3;
+int key =0;
 	int lives = 3;
 	int leve = 1;
 void Game()
@@ -117,21 +117,32 @@ void Game()
 
 		
 		Pacman.Update(1.0f / 30.0f);
-		if (map.superDot_eaten == true && frTime.asSeconds()<10)
+		if (map.superDot_eaten == true && frTime.asSeconds()<15)
 		{
 			frTime = frClock.getElapsedTime();
 			blinky.Frightened_Mode(1,frTime, Geaten);
 			inky.Frightened_Mode(1, frTime, Geaten2);
 			clyde.Frightened_Mode(1, frTime, Geaten3);
 			pinky.Frightened_Mode(1, frTime,Geaten1);
-			
+			blinky.movespeed = 1;
+			 inky.movespeed = 1;
+			 clyde.movespeed = 1;
+			 pinky.movespeed = 1;
 			
 		}
-	    if(frTime.asSeconds()>10 && map.superDot_eaten ==true )
+	    if(frTime.asSeconds()>15 && map.superDot_eaten ==true )
 		{
 			frClock.restart();
 			frTime = frClock.restart();
 			map.superDot_eaten = false;
+			 Geaten = false;
+			 Geaten1 = false;
+			 Geaten2 = false;
+			 Geaten3 = false;
+			 blinky.movespeed = 3;
+			 inky.movespeed = 2;
+			 clyde.movespeed = 1.5;
+			 pinky.movespeed = 2;
 		}
 		time = clock.getElapsedTime();
 		sf::Vector2f blinky_to_pac = { Pacman.x, Pacman.y };
@@ -185,35 +196,52 @@ void Game()
 		}
 		/////////////////////////////////Update Ghosts/////////////////////////////////////////////
 
-		if (time.asSeconds() >= 4) //Chase Mode
+		if (time.asSeconds() >= 4 && Geaten == false) //Chase Mode
 		{
 			blinky.Update(1, blinky_to_pac, blinky.s_Blinky);  //Update red Animtion
 			
 		}
+		else if (Geaten == true) //eaten blinky
+		{
+		blinky.Update(1, {420.0f,330.0f }, blinky.s_Blinky);
+		}
+
 		else
 		{
 			blinky.Update2(0.5f,blinky.s_Blinky);
 
 		}
-		if (time.asSeconds() >= 5) //Chase Mode
+		if (time.asSeconds() >= 5 && Geaten1 == false) //Chase Mode
 		{
 			pinky.Update(1, pinky_to_pac, pinky.s_Pinky);   //Update pink Animtion
+		}
+		else if (Geaten1 == true) //eaten pinky
+		{
+			pinky.Update(1, { 390.0f,420.0f }, pinky.s_Pinky); //
 		}
 		else
 		{
 			pinky.Update3(0.5f,pinky.s_Pinky);
 		}
-		if (time.asSeconds() >= 8) //Chase Mode
+		if (time.asSeconds() >= 8 && Geaten2== false) //Chase Mode
 		{
 			inky.Update(1, inky_to_pac, inky.s_Inky);   //Update Blue Animtion
+		}
+		else if (Geaten2 == true) //eaten inky
+		{
+			inky.Update(1, { 420.0f,420.0f }, inky.s_Inky);
 		}
 		else
 		{
 			inky.Update4(0.5f,inky.s_Inky);
 		}
-		if (time.asSeconds() >= 10) //Chase Mode
+		if (time.asSeconds() >= 10 && Geaten3 == false) //Chase Mode
 		{
 			clyde.Update(1,blinky_to_pac,clyde.s_Clyde);  //Update orange Animtion
+		}
+		else if (Geaten3 == true) //eaten clyde
+		{
+			clyde.Update(1, { 450.0f,420 }, clyde.s_Clyde);
 		}
 		else
 		{
@@ -235,7 +263,7 @@ void Game()
 		{
 			if (map.win(Sscore) == true)
 			{
-				break;
+				break; //Level Up.
 			}
 		}
 		if (map.superDot_eaten == false)
@@ -258,21 +286,39 @@ void Game()
 			if (map.Actor.getGlobalBounds().intersects(blinky.s_Blinky.getGlobalBounds()) )
 			{
 				Geaten = true;
+				Sscore.score += 100;
+				Sscore.Sscore.str("");
+				Sscore.Sscore << "Score : " << Sscore.score;
+				Sscore.text.setString(Sscore.Sscore.str());
+				blinky.movespeed = 5;
 
 			}
 			if (map.Actor.getGlobalBounds().intersects(pinky.s_Pinky.getGlobalBounds()))
 			{
 				Geaten1 = true;
-
+				Sscore.score += 50;
+				Sscore.Sscore.str("");
+				Sscore.Sscore << "Score : " << Sscore.score;
+				Sscore.text.setString(Sscore.Sscore.str());
+				pinky.movespeed = 5;
 			}
 			if (map.Actor.getGlobalBounds().intersects(inky.s_Inky.getGlobalBounds()))
 			{
 				Geaten2 = true;
-
+				Sscore.score += 50;
+				Sscore.Sscore.str("");
+				Sscore.Sscore << "Score : " << Sscore.score;
+				Sscore.text.setString(Sscore.Sscore.str());
+				inky.movespeed = 5;
 			}
 			if (map.Actor.getGlobalBounds().intersects(clyde.s_Clyde.getGlobalBounds()))
 			{
 				Geaten3 = true;
+				Sscore.score += 50;
+				Sscore.Sscore.str("");
+				Sscore.Sscore << "Score : " << Sscore.score;
+				Sscore.text.setString(Sscore.Sscore.str());
+				clyde.movespeed = 5;
 
 			}
 		}
@@ -293,7 +339,34 @@ void Game()
 	{
 		lives = 3;
 		leve = 1;
-		GameOver();
+		std::ifstream readFile;
+		int PrevS;
+		int new_score = 0;
+		readFile.open("Resources/HighScore/HighScore.txt");
+
+		if (readFile.is_open())
+		{
+			while (!readFile.eof())
+			{
+				readFile >> PrevS;
+
+			}
+		}
+		if (PrevS < Sscore.score)
+		{
+			new_score = 1;
+			std::ofstream writeFile("Resources/HighScore/HighScore.txt");
+			if (writeFile.is_open())
+			{
+				writeFile << Sscore.score;
+			}
+		}
+		if(new_score==0)
+		GameOver(0);
+		else
+		{
+			GameOver(1);
+		}
 	}
 	else if (event.type!=sf::Event::Closed)
 	{

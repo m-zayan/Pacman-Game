@@ -5,7 +5,7 @@
 #define GameOver_H
 
 
-void GameOver();
+void GameOver(int s);
 
 
 

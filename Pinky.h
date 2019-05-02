@@ -143,7 +143,7 @@ int Grow = int(y / 30);
 	}
 	void Frightened_Mode(bool superDot_eaten, sf::Time time,bool eaten)
 	{
-		if (superDot_eaten == true && time.asSeconds() < 8)
+		if (superDot_eaten == true && time.asSeconds() < 13)
 		{
 			currentAnimation = AnimationIndex::frightened;
 		}
@@ -151,7 +151,7 @@ int Grow = int(y / 30);
 		{
 			currentAnimation = AnimationIndex::die;
 		}
-		else
+		else if (superDot_eaten == true && time.asSeconds() > 13)
 		{
 			currentAnimation = AnimationIndex::back;
 		}

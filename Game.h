@@ -20,7 +20,7 @@ public:
 		texture.loadFromFile("Resources/Graphics/lives .png");
 		texture.setSmooth(true);
 		lives.setTexture(texture);
-		lives.setScale(1, 0.9);
+		lives.setScale(1.0f, 0.9f);
 		lives.setTextureRect({ 0,0,40,37 });
 		texture2.loadFromFile("Resources/Graphics/GameOver.jpg");
 		texture2.setSmooth(true);
@@ -47,7 +47,7 @@ public:
 		for (int i = 0; i < 3; i++)
 		{
 
-			lives.setPosition(600 + (i * 40), 940);
+			lives.setPosition(float(600 + (i * 40)), 940.0f);
 			if (die[i] == false)
 			{
 				window.draw(lives);
