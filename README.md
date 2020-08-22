@@ -4,6 +4,7 @@
 </pre>
 This game was built using [C++](https://github.com/m-zayan/Pacman-Game) & [SFML Library](https://github.com/SFML/SFML)
 - Ghost AI
+- Ghosts No Backtracking (Video - 1.02)
 - Different Ghosts Modes
 - Animation
 
